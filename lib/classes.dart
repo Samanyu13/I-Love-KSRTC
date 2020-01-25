@@ -28,20 +28,70 @@ class DetailCell extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          padding: new EdgeInsets.all(10.0),
+          // padding: new EdgeInsets.all(10.0),
           child: Column(
             children: <Widget>[
-              Image(
-                image: AssetImage(
-                  'assets/images/bl.jpg',
-                ),
-              ),
-              Text('Text No. $i'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    child: Center(
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            "Bus No: $i",
+                            style: detailCellTextStyle(),
+                          ),
+                          Text(
+                            "Bus Type: XXX",
+                            style: detailCellTextStyle(),
+                          ),
+                          Text(
+                            "ETA: 10:00 -> 12:00",
+                            style: detailCellTextStyle(),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      OutlineButton(
+                        onPressed: null,
+                        child: Text(
+                          "More details.",
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              decorationColor: Colors.black),
+                        ),
+                      ),
+                      RaisedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/maps');
+                        },
+                        child: Text(
+                          "Live Location",
+                          style: TextStyle(
+                              fontFamily: 'Montserrat', color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )
             ],
           ),
-        ),
-        Divider()
+        )
       ],
     );
   }
+}
+
+TextStyle detailCellTextStyle() {
+  return TextStyle(
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.bold,
+    // color: Colors.white
+  );
 }

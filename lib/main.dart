@@ -4,6 +4,22 @@ import 'package:I_Iove_KSRTC/home.dart';
 import 'package:I_Iove_KSRTC/signup.dart';
 import 'package:flutter/material.dart';
 
+import './pages/animated_map_controller.dart';
+import './pages/circle.dart';
+import './pages/esri.dart';
+import './pages/home.dart';
+import './pages/map_controller.dart';
+import './pages/marker_anchor.dart';
+import './pages/moving_markers.dart';
+import './pages/offline_map.dart';
+import './pages/offline_mbtiles_map.dart';
+import './pages/on_tap.dart';
+import './pages/overlay_image.dart';
+import './pages/plugin_api.dart';
+import './pages/plugin_scalebar.dart';
+import './pages/plugin_zoombuttons.dart';
+import './pages/polyline.dart';
+import './pages/tap_to_add.dart';
 import 'classes.dart';
 
 void main() => runApp(new MyApp());
@@ -16,7 +32,24 @@ class MyApp extends StatelessWidget {
       routes: {
         '/signup': (context) => new SignUp(),
         '/home': (context) => new UserHome(),
-        '/forgotpass': (context) => new ForgotPassword()
+        '/forgotpass': (context) => new ForgotPassword(),
+        '/maps': (context) => HomePage(),
+        TapToAddPage.route: (context) => TapToAddPage(),
+        EsriPage.route: (context) => EsriPage(),
+        PolylinePage.route: (context) => PolylinePage(),
+        MapControllerPage.route: (context) => MapControllerPage(),
+        AnimatedMapControllerPage.route: (context) =>
+            AnimatedMapControllerPage(),
+        MarkerAnchorPage.route: (context) => MarkerAnchorPage(),
+        PluginPage.route: (context) => PluginPage(),
+        PluginScaleBar.route: (context) => PluginScaleBar(),
+        PluginZoomButtons.route: (context) => PluginZoomButtons(),
+        OfflineMapPage.route: (context) => OfflineMapPage(),
+        OfflineMBTilesMapPage.route: (context) => OfflineMBTilesMapPage(),
+        OnTapPage.route: (context) => OnTapPage(),
+        MovingMarkersPage.route: (context) => MovingMarkersPage(),
+        CirclePage.route: (context) => CirclePage(),
+        OverlayImagePage.route: (context) => OverlayImagePage(),
       },
       home: new MyHomePage(),
       // theme: ThemeData.dark(),
@@ -52,7 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: EdgeInsets.fromLTRB(15.0, 40.0, 0.0, 0.0),
                   child: Text('Hello',
                       style: TextStyle(
-                          fontSize: 80.0, fontWeight: FontWeight.bold, fontFamily: 'Montserrat')),
+                          fontSize: 80.0,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat')),
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(220.0, 45.0, 0.0, 0.0),
