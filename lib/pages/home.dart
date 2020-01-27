@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 
-import '../widgets/drawer.dart';
-
 class HomePage extends StatelessWidget {
   static const String route = '/';
 
@@ -27,7 +25,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           title: Text('Let\'s Locate..!'), backgroundColor: Colors.green),
-      drawer: buildDrawer(context, route),
+      // drawer: buildDrawer(context, route),
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(

@@ -16,8 +16,36 @@ class UserLogin {
 }
 
 class UserSignUp {
-  String username;
-  String password;
+  final String firstName;
+  final String lastName;
+  final String userName;
+  final String email;
+  final String password;
+  final String mobileNo;
+
+  UserSignUp(
+      {this.firstName,
+      this.lastName,
+      this.userName,
+      this.email,
+      this.password,
+      this.mobileNo});
+
+  factory UserSignUp.fromJson(Map<String, dynamic> json) {
+    return UserSignUp(
+        email: json['email'],
+        password: json['password'],
+        mobileNo: json['mobileNo']);
+  }
+
+  Map toMap() {
+    var map = new Map<String, dynamic>();
+    map['email'] = email;
+    map['password'] = password;
+    map['mobileNo'] = mobileNo;
+
+    return map;
+  }
 }
 
 class DetailCell extends StatelessWidget {
@@ -70,6 +98,7 @@ class DetailCell extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pushNamed('/maps');
                         },
+                        color: Colors.greenAccent,
                         child: Text(
                           "Live Location",
                           style: TextStyle(
