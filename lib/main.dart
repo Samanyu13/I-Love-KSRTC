@@ -1,7 +1,7 @@
-import 'package:I_Iove_KSRTC/drawer.dart';
-import 'package:I_Iove_KSRTC/forgotPassword.dart';
-import 'package:I_Iove_KSRTC/home.dart';
-import 'package:I_Iove_KSRTC/signup.dart';
+import 'package:I_Love_KSRTC/drawer.dart';
+import 'package:I_Love_KSRTC/forgotPassword.dart';
+import 'package:I_Love_KSRTC/home.dart';
+import 'package:I_Love_KSRTC/signup.dart';
 import 'package:flutter/material.dart';
 
 import './pages/animated_map_controller.dart';

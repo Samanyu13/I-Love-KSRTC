@@ -1,9 +1,39 @@
 import 'dart:convert';
 
-import 'package:I_Iove_KSRTC/classes.dart';
+import 'package:I_Love_KSRTC/env.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+
+class UserSignUp {
+  final String firstName;
+  final String lastName;
+  final String userName;
+  final String email;
+  final String password;
+  final String mobileNo;
+
+  UserSignUp(
+      {this.firstName,
+      this.lastName,
+      this.userName,
+      this.email,
+      this.password,
+      this.mobileNo});
+
+  Map toMap() {
+    var map = new Map<String, dynamic>();
+
+    map['firstName'] = firstName;
+    map['lastName'] = lastName;
+    map['userName'] = userName;
+    map['email'] = email;
+    map['password'] = password;
+    map['mobileNo'] = mobileNo;
+
+    return map;
+  }
+}
 
 class SignUp extends StatefulWidget {
   @override
@@ -100,24 +130,7 @@ class _SignUpState extends State<SignUp> {
                     color: Colors.green,
                     elevation: 7.0,
                     child: InkWell(
-                      onTap: () async {
-                        UserSignUp regRequest = new UserSignUp(
-                            firstName: firstName.text,
-                            lastName: lastName.text,
-                            userName: userName.text,
-                            email: email.text,
-                            password: password.text,
-                            mobileNo: mobileNo.text);
-
-                        http.post('http://192.168.10.13:3000/auth/register', body: regRequest.toMap()).then((http.Response response) {
-                          final int statusCode = response.statusCode;
-                          print(response.body);
-                          if(statusCode < 200 || statusCode > 400 || json == null) {
-                            throw new Exception("Error while fetching data..!"); 
-                          }
-                          return UserSignUp.fromJson(json.decode(response.body));
-                        });
-                      },
+                      onTap: () => registerPost(),
                       child: Center(
                         child: Text('SIGNUP',
                             style: TextStyle(
@@ -169,4 +182,34 @@ InputDecoration textFieldDecorator(String text) {
           color: Colors.grey),
       focusedBorder:
           UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)));
+}
+
+registerPost() async {
+  UserSignUp regRequest = new UserSignUp(
+      // firstName: firstName.text,
+      // lastName: lastName.text,
+      // userName: userName.text,
+      // email: email.text,
+      // password: password.text,
+      // mobileNo: mobileNo.text);
+      firstName: "Samanyu",
+      lastName: "A Saji",
+      userName: "Soman",
+      email: "samanyu@cet.ac.in",
+      password: "12345678",
+      mobileNo: "8281812793");
+
+  String url = Env.get().ip;
+  url = url + '/auth/register';
+
+  http.Response response = await http.post(url, body: regRequest.toMap());
+
+  final int statusCode = response.statusCode;
+  print(response.body);
+  if (statusCode < 200 || statusCode > 400 || json == null) {
+    throw new Exception("Error while fetching data..!");
+  }
+  var x = json.decode(response.body);
+  print(x['status']);
+  print(jsonDecode(response.body)['status']);
 }

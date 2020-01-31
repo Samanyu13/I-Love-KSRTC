@@ -15,39 +15,6 @@ class UserLogin {
   UserLogin.getBoth(this.mail, this.password);
 }
 
-class UserSignUp {
-  final String firstName;
-  final String lastName;
-  final String userName;
-  final String email;
-  final String password;
-  final String mobileNo;
-
-  UserSignUp(
-      {this.firstName,
-      this.lastName,
-      this.userName,
-      this.email,
-      this.password,
-      this.mobileNo});
-
-  factory UserSignUp.fromJson(Map<String, dynamic> json) {
-    return UserSignUp(
-        email: json['email'],
-        password: json['password'],
-        mobileNo: json['mobileNo']);
-  }
-
-  Map toMap() {
-    var map = new Map<String, dynamic>();
-    map['email'] = email;
-    map['password'] = password;
-    map['mobileNo'] = mobileNo;
-
-    return map;
-  }
-}
-
 class DetailCell extends StatelessWidget {
   final i;
   DetailCell(this.i);
