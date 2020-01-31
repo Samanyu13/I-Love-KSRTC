@@ -55,7 +55,7 @@ class _SignUpState extends State<SignUp> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: Text(
-          'Welcome',
+          'SIGN UP',
           style: TextStyle(
               color: Colors.white,
               fontFamily: 'Montserrat',
@@ -65,25 +65,6 @@ class _SignUpState extends State<SignUp> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                border: Border(
-              bottom: BorderSide(width: 1.0, color: Colors.grey),
-            )),
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 0.0, 0.0),
-                  child: Center(
-                      child: Text('SIGNUP',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold))),
-                )
-              ],
-            ),
-          ),
           Container(
             padding: EdgeInsets.only(top: 25.0, left: 20.0, right: 20.0),
             child: Column(
@@ -142,28 +123,6 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 SizedBox(height: 20.0),
-                Container(
-                    height: 40.0,
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.black,
-                                  style: BorderStyle.solid,
-                                  width: 1.0),
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(20.0)),
-                          child: Center(
-                            child: Text('Go Back',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Montserrat')),
-                          )),
-                    ))
               ],
             ),
           ),
