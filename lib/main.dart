@@ -1,8 +1,11 @@
+import 'package:I_Love_KSRTC/confirm.dart';
 import 'package:I_Love_KSRTC/drawer.dart';
+import 'package:I_Love_KSRTC/error.dart';
 import 'package:I_Love_KSRTC/forgotPassword.dart';
 import 'package:I_Love_KSRTC/home.dart';
 import 'package:I_Love_KSRTC/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 import './pages/animated_map_controller.dart';
 import './pages/circle.dart';
@@ -34,6 +37,8 @@ class MyApp extends StatelessWidget {
         '/home': (context) => new UserHome(),
         '/forgotpass': (context) => new ForgotPassword(),
         '/maps': (context) => HomePage(),
+        '/confirmpage': (context) => ConfirmPage(),
+        '/error': (context) => ErrorPage(),
         TapToAddPage.route: (context) => TapToAddPage(),
         EsriPage.route: (context) => EsriPage(),
         PolylinePage.route: (context) => PolylinePage(),
@@ -104,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
             child: Column(
               children: <Widget>[
-                TextField(
+                TextFormField(
                   controller: mail,
                   decoration: InputDecoration(
                       labelText: 'EMAIL',
@@ -116,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           borderSide: BorderSide(color: Colors.green))),
                 ),
                 SizedBox(height: 20.0),
-                TextField(
+                TextFormField(
                   controller: password,
                   decoration: InputDecoration(
                     labelText: 'PASSWORD',
@@ -176,37 +181,55 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 SizedBox(height: 20.0),
                 Container(
-                  height: 40.0,
-                  color: Colors.transparent,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.black,
-                            style: BorderStyle.solid,
-                            width: 1.0),
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(20.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
-                          // child: Image(
-                          // image: AssetImage('assets/images/gmail.png',),
+                    height: 40.0,
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async {
+                        // LocationData currentLocation = new LocationData();
 
-                          // ),
-                          child: Icon(Icons.mail_outline),
+                        Location location = new Location();
+
+                        try {
+                          LocationData currentLocation =
+                              await location.getLocation();
+                          print("XXX");
+                          print(currentLocation.latitude);
+                          print(currentLocation.longitude);
+                          print("XXX");
+                        } on Exception catch (e) {
+                          print("SHIT");
+                        }
+                        print("NULL");
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.black,
+                                style: BorderStyle.solid,
+                                width: 1.0),
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(20.0)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              // child: Image(
+                              // image: AssetImage('assets/images/gmail.png',),
+
+                              // ),
+                              child: Icon(Icons.mail_outline),
+                            ),
+                            SizedBox(width: 10.0),
+                            Center(
+                              child: Text('Log in with Gmail',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat')),
+                            )
+                          ],
                         ),
-                        SizedBox(width: 10.0),
-                        Center(
-                          child: Text('Log in with Gmail',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat')),
-                        )
-                      ],
-                    ),
-                  ),
-                )
+                      ),
+                    ))
               ],
             ),
           ),
@@ -215,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'New to CTracker ?',
+                'New to the community ?',
                 style: TextStyle(fontFamily: 'Montserrat'),
               ),
               SizedBox(width: 5.0),
@@ -239,5 +262,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void buildPrint() => print('object');
+  // void buildPrint() => print('object');
 }
