@@ -1,5 +1,5 @@
 class Env {
-  final String ip = 'http://192.168.5.171:3000';
+  final String ip = 'http://192.168.1.74:3000';
 
   static Env env = Env();
 
