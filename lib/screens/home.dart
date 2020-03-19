@@ -1,6 +1,6 @@
+import 'package:I_Love_KSRTC/templates/detailed_bus_card.dart';
 import 'package:flutter/material.dart';
-
-import 'classes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserHome extends StatefulWidget {
   @override
@@ -18,6 +18,18 @@ class _UserHomeState extends State<UserHome> {
               TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.green,
+        actions: <Widget>[
+          InkWell(
+            onTap: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.remove('ID');
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/login', (route) => false);
+            },
+            
+            child: Icon(Icons.phonelink_erase),
+          )
+        ],
       ),
       body: new Center(
         child: new ListView.builder(

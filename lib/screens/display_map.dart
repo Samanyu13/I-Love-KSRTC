@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 
-class HomePage extends StatelessWidget {
+class MapPage extends StatelessWidget {
   static const String route = '/';
 
   @override
@@ -25,7 +25,6 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           title: Text('Let\'s Locate..!'), backgroundColor: Colors.green),
-      // drawer: buildDrawer(context, route),
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(

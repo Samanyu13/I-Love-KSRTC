@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:I_Love_KSRTC/env.dart';
-import 'package:I_Love_KSRTC/response.dart';
-import 'package:I_Love_KSRTC/widgets.dart';
+import 'package:I_Love_KSRTC/templates/env.dart';
+import 'package:I_Love_KSRTC/templates/io_classes.dart';
+import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,7 +74,8 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       prefs.setInt('ID', id);
-                      Navigator.of(context).pushNamed('/home');
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil('/home', (route) => false);
                     } else {
                       // Navigator.pop(context);
                       mykey.currentState.showSnackBar(SnackBar(

@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:I_Love_KSRTC/classes.dart';
-import 'package:I_Love_KSRTC/drawer.dart';
-import 'package:I_Love_KSRTC/env.dart';
-import 'package:I_Love_KSRTC/response.dart';
+import 'package:I_Love_KSRTC/templates/app_drawer.dart';
+import 'package:I_Love_KSRTC/templates/env.dart';
+import 'package:I_Love_KSRTC/templates/io_classes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';

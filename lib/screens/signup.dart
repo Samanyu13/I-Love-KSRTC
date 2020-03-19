@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:I_Love_KSRTC/env.dart';
-import 'package:I_Love_KSRTC/response.dart';
-import 'package:I_Love_KSRTC/widgets.dart';
+import 'package:I_Love_KSRTC/templates/env.dart';
+import 'package:I_Love_KSRTC/templates/io_classes.dart';
+import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;

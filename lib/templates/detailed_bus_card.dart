@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
 
-class FromTo {
-  String from;
-  String to;
-
-  FromTo(this.from, this.to);
-}
-
-class UserLogin {
-  String mail;
-  String password;
-
-  UserLogin.getMail(this.mail);
-  UserLogin.getBoth(this.mail, this.password);
-}
-
 class DetailCell extends StatelessWidget {
   final i;
   DetailCell(this.i);
