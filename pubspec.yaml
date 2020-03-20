@@ -18,7 +18,9 @@ environment:
 
 dependencies:
   shared_preferences: ^0.5.6+1
-  flutter_map: ^0.8.2
+  flutter_polyline_points: ^0.1.0
+  google_maps_flutter: ^0.5.25
+
   flutter:
     sdk: flutter
 
@@ -48,7 +50,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/gmail.png
-    - assets/images/bl.jpg
+    - assets/images/njan.jpg
+    - assets/images/driving_pin.png
+    - assets/images/destination_map_marker.png
+    - assets/data/keys.json
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
