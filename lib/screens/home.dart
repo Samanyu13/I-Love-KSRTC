@@ -1,47 +1,70 @@
-import 'package:I_Love_KSRTC/templates/detailed_bus_card.dart';
+import 'package:I_Love_KSRTC/templates/buttons.dart';
+import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class UserHome extends StatefulWidget {
-  @override
-  _UserHomeState createState() => _UserHomeState();
-}
+class UserHome extends StatelessWidget {
+  final fromStop = new TextEditingController();
+  final toStop = new TextEditingController();
 
-class _UserHomeState extends State<UserHome> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text(
-          'Welcome',
-          style:
-              TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
-        ),
+        title: Text('Hello'),
         backgroundColor: Colors.green,
-        actions: <Widget>[
-          InkWell(
-            onTap: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.remove('ID');
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/login', (route) => false);
-            },
-            
-            child: Icon(Icons.phonelink_erase),
-          )
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(height: 40.0),
+          Container(
+            padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  controller: fromStop,
+                  decoration: getInputFieldDecoration('FROM'),
+                ),
+                SizedBox(height: 20.0),
+                TextFormField(
+                  controller: toStop,
+                  decoration: getInputFieldDecoration('TO'),
+                  obscureText: true,
+                ),
+                SizedBox(height: 25.0),
+                //Button
+                Container(
+                  height: 40.0,
+                  child: InkWell(
+                    onTap: () async {
+                      var map = new Map<String, dynamic>();
+
+                      map['password'] = fromStop.text;
+                      map['email'] = toStop.text;
+                      var res = await getBusData(map);
+
+                      if (res != null) {
+                        if (res.success) {}
+                      } else {}
+                    },
+                    child: getColorButton('GO'),
+                  ),
+                ),
+                SizedBox(height: 20.0),
+              ],
+            ),
+          ),
+          SizedBox(height: 15.0),
         ],
       ),
-      body: new Center(
-        child: new ListView.builder(
-            itemCount: 5,
-            itemBuilder: (context, i) {
-              return Card(
-                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                color: Colors.green[100],
-                child: DetailCell(i),
-              );
-            }),
-      ),
     );
+  }
+}
+
+Future<dynamic> getBusData(Map<String, dynamic> map) async {
+  try {} catch (err) {
+    print(err);
+    return null;
   }
 }

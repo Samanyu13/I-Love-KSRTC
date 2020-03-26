@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-InputDecoration textFieldDecorator(String text) {
+InputDecoration getInputFieldDecoration(String text) {
   return InputDecoration(
       labelText: text,
       labelStyle: TextStyle(

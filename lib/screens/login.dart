@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:I_Love_KSRTC/templates/app_drawer.dart';
+import 'package:I_Love_KSRTC/templates/buttons.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
+import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
@@ -59,27 +61,12 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 TextFormField(
                   controller: mail,
-                  decoration: InputDecoration(
-                      labelText: 'EMAIL',
-                      labelStyle: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green))),
+                  decoration: getInputFieldDecoration('EMAIL'),
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
                   controller: password,
-                  decoration: InputDecoration(
-                    labelText: 'PASSWORD',
-                    labelStyle: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green)),
-                  ),
+                  decoration: getInputFieldDecoration('PASSWORD'),
                   obscureText: true,
                 ),
                 SizedBox(height: 5.0),
@@ -126,19 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.pushNamed(context, '/home',
                             arguments: UserLogin.getMail(mail.text));
                       },
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.greenAccent,
-                        color: Colors.green,
-                        elevation: 7.0,
-                        child: Center(
-                          child: Text('LOGIN',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat')),
-                        ),
-                      )),
+                      child: getColorButton('LOGIN')),
                 ),
                 SizedBox(height: 20.0),
                 Container(
@@ -159,33 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                           print(e);
                         }
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.black,
-                                style: BorderStyle.solid,
-                                width: 1.0),
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Center(
-                              // child: Image(
-                              // image: AssetImage('assets/images/gmail.png',),
-                              // ),
-                              child: Icon(Icons.mail_outline),
-                            ),
-                            SizedBox(width: 10.0),
-                            Center(
-                              child: Text('Log in with Gmail',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat')),
-                            )
-                          ],
-                        ),
-                      ),
+                      child: getButtonWithLogo('Login with GMail', Icons.mail_outline),
                     ))
               ],
             ),

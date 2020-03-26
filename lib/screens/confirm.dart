@@ -43,7 +43,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
           TextField(
             keyboardType: TextInputType.text,
             controller: otp,
-            decoration: textFieldDecorator('OTP'),
+            decoration: getInputFieldDecoration('OTP'),
           ),
           SizedBox(height: 40.0),
           Container(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:I_Love_KSRTC/templates/buttons.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
 import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
@@ -63,34 +64,29 @@ class _SignUpState extends State<SignUp> {
               children: <Widget>[
                 TextField(
                   controller: userName,
-                  decoration: textFieldDecorator('USERNAME'),
+                  decoration: getInputFieldDecoration('USERNAME'),
                 ),
                 SizedBox(height: 10.0),
                 TextField(
                   keyboardType: TextInputType.emailAddress,
                   controller: email,
-                  decoration: textFieldDecorator('EMAIL'),
+                  decoration: getInputFieldDecoration('EMAIL'),
                 ),
                 SizedBox(height: 10.0),
                 TextField(
                   controller: password,
-                  decoration: textFieldDecorator('PASSWORD'),
+                  decoration: getInputFieldDecoration('PASSWORD'),
                 ),
                 SizedBox(height: 10.0),
                 TextField(
                   keyboardType: TextInputType.number,
                   controller: mobileNo,
-                  decoration: textFieldDecorator('MOBILE NUMBER'),
+                  decoration: getInputFieldDecoration('MOBILE NUMBER'),
                 ),
                 SizedBox(height: 40.0),
                 Container(
                   height: 40.0,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(20.0),
-                    shadowColor: Colors.greenAccent,
-                    color: Colors.green,
-                    elevation: 7.0,
-                    child: InkWell(
+                  child: InkWell(
                       onTap: () async {
                         UserSignUp regRequest = new UserSignUp(
                             // userName: userName.text,
@@ -106,7 +102,8 @@ class _SignUpState extends State<SignUp> {
 
                         if (res != null) {
                           if (res.success) {
-                            Navigator.of(context).pushNamed('/confirmpage',arguments: res.about);
+                            Navigator.of(context).pushNamed('/confirmpage',
+                                arguments: res.about);
                           } else {
                             mykey.currentState.showSnackBar(SnackBar(
                               content: Text('Oops..!Something went wrong..:/'),
@@ -116,15 +113,7 @@ class _SignUpState extends State<SignUp> {
                           }
                         }
                       },
-                      child: Center(
-                        child: Text('SIGNUP',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Montserrat')),
-                      ),
-                    ),
-                  ),
+                      child: getColorButton('SIGNUP')),
                 ),
                 SizedBox(height: 20.0),
               ],

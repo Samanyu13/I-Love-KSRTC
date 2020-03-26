@@ -5,6 +5,7 @@ import 'package:I_Love_KSRTC/screens/forgot_password.dart';
 import 'package:I_Love_KSRTC/screens/home.dart';
 import 'package:I_Love_KSRTC/screens/login.dart';
 import 'package:I_Love_KSRTC/screens/signup.dart';
+import 'package:I_Love_KSRTC/screens/user_bus_info.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,12 +15,13 @@ Future<void> main() async {
   var id = prefs.getInt('ID');
   runApp(MaterialApp(
     // home: id == null ? LoginPage() : UserHome(),
-    home: id == null ? UserHome() : LoginPage(),
+    home: id == null ? UserBusInfo() : LoginPage(),
     debugShowCheckedModeBanner: false,
     routes: {
       '/signup': (context) => new SignUp(),
       '/login': (context) => new LoginPage(),
       '/home': (context) => new UserHome(),
+      '/businfo': (context) => new UserBusInfo(),
       '/forgotpass': (context) => new ForgotPassword(),
       '/maps': (context) => MapPage(),
       '/confirmpage': (context) => ConfirmPage(),
