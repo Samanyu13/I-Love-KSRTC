@@ -12,10 +12,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  var id = prefs.getInt('ID');
+  var id = prefs.getString('__UID');
+  print("IDDD");
+  print(id);
   runApp(MaterialApp(
-    // home: id == null ? LoginPage() : UserHome(),
-    home: id == null ? UserBusInfo() : LoginPage(),
+    home: id == null ? LoginPage() : UserHome(),
+    // home: id == null ? UserHome() : LoginPage(),
     debugShowCheckedModeBanner: false,
     routes: {
       '/signup': (context) => new SignUp(),

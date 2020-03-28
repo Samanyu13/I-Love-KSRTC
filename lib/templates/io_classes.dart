@@ -1,4 +1,3 @@
-
 class FromTo {
   String from;
   String to;
@@ -21,10 +20,17 @@ class Response {
 
   Response({this.about, this.status, this.success});
 
-  factory Response.fromJSON(Map<String, dynamic> parsedJSON) {
+  factory Response.fromJSON(Map<String, dynamic> data) {
     return Response(
-        about: parsedJSON['about'],
-        status: parsedJSON['status'],
-        success: parsedJSON['success']);
+        about: data['about'], status: data['status'], success: data['success']);
   }
+}
+
+class BusData {
+  String routeID;
+  String routeName;
+  String busNo;
+  String regNo;
+  String busMake;
+  String empCode;
 }

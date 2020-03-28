@@ -73,7 +73,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       ));
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
-                      prefs.setInt('ID', id);
+                      prefs.setString('__UID', id);
                       Navigator.of(context)
                           .pushNamedAndRemoveUntil('/home', (route) => false);
                     } else {

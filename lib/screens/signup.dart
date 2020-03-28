@@ -103,7 +103,7 @@ class _SignUpState extends State<SignUp> {
                         if (res != null) {
                           if (res.success) {
                             Navigator.of(context).pushNamed('/confirmpage',
-                                arguments: res.about);
+                                arguments: res.about['data']);
                           } else {
                             mykey.currentState.showSnackBar(SnackBar(
                               content: Text('Oops..!Something went wrong..:/'),

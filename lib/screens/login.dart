@@ -6,8 +6,10 @@ import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
 import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -61,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 TextFormField(
                   controller: mail,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: getInputFieldDecoration('EMAIL'),
                 ),
                 SizedBox(height: 20.0),
@@ -100,18 +103,21 @@ class _LoginPageState extends State<LoginPage> {
 
                         if (res != null) {
                           if (res.success) {
-                            mykey.currentState.showSnackBar(SnackBar(
-                                content: Text('Success..!'),
-                                duration: Duration(seconds: 3)));
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            var token = res.about['data'];
+                            // print(token);
+                            prefs.setString('USER_TOKEN', token);
+                            prefs.setString('__UID', res.about['comment'].toString());
+                            
+                            Navigator.pushNamed(context, '/home',
+                                arguments: UserLogin.getMail(mail.text));
                           }
                         } else {
                           mykey.currentState.showSnackBar(SnackBar(
                               content: Text('Login Failed..:/'),
                               duration: Duration(seconds: 3)));
                         }
-
-                        Navigator.pushNamed(context, '/home',
-                            arguments: UserLogin.getMail(mail.text));
                       },
                       child: getColorButton('LOGIN')),
                 ),
@@ -121,7 +127,6 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () async {
-                        // LocationData currentLocation = new LocationData();
 
                         Location location = new Location();
 
@@ -134,7 +139,8 @@ class _LoginPageState extends State<LoginPage> {
                           print(e);
                         }
                       },
-                      child: getButtonWithLogo('Login with GMail', Icons.mail_outline),
+                      child: getButtonWithLogo(
+                          'Login with GMail', Icons.mail_outline),
                     ))
               ],
             ),
