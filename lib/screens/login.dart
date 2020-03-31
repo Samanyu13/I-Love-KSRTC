@@ -188,6 +188,7 @@ Future<dynamic> loginPost(Map<String, dynamic> map) async {
     }
     var res = json.decode(response.body);
     Response ret = Response.fromJSON(res);
+    print(ret.success);
     return ret;
   } catch (err) {
     print(err);

@@ -30,7 +30,7 @@ dependencies:
   location: ^2.5.4
   logger: ^0.8.3
   flutter_map: ^0.8.2
-
+  autocomplete_textfield: ^1.7.3
 
 dev_dependencies:
   flutter_test:

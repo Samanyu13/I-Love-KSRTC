@@ -26,11 +26,12 @@ class Response {
   }
 }
 
-class BusData {
-  String routeID;
-  String routeName;
-  String busNo;
-  String regNo;
-  String busMake;
-  String empCode;
+class BusStopName {
+  String busstopName;
+
+  BusStopName({this.busstopName});
+
+  factory BusStopName.fromJSON(Map<String, dynamic> data) {
+    return BusStopName(busstopName: data['busstop'] as String);
+  }
 }

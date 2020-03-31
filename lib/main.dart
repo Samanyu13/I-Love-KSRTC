@@ -17,6 +17,7 @@ Future<void> main() async {
   print(id);
   runApp(MaterialApp(
     home: id == null ? LoginPage() : UserHome(),
+    // home: ConfirmPage(),
     // home: id == null ? UserHome() : LoginPage(),
     debugShowCheckedModeBanner: false,
     routes: {
