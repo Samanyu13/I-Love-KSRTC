@@ -10,18 +10,21 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserHome extends StatefulWidget {
-  UserHome() : super();
-
   @override
   _UserHomeState createState() => _UserHomeState();
 }
 
 class _UserHomeState extends State<UserHome> {
-  bool loading = true;
-  AutoCompleteTextField searchTextField;
   GlobalKey<ScaffoldState> mykey = new GlobalKey<ScaffoldState>();
 
-  GlobalKey<AutoCompleteTextFieldState<BusStopName>> fKey = new GlobalKey();
+  AutoCompleteTextField searchTextFieldA;
+  AutoCompleteTextField searchTextFieldB;
+
+  GlobalKey<AutoCompleteTextFieldState<BusStopName>> fKeyA = new GlobalKey();
+  GlobalKey<AutoCompleteTextFieldState<BusStopName>> fKeyB = new GlobalKey();
+
+  bool loading = true;
+
   final fromStop = new TextEditingController();
   final toStop = new TextEditingController();
 
@@ -31,7 +34,10 @@ class _UserHomeState extends State<UserHome> {
     try {
       String url = Env.get().ip;
       url = url + '/private/user/getAllBusNames';
+      print(url);
+      // url = "https://jsonplaceholder.typicode.com/users";
       http.Response response = await http.get(url);
+      print(response.statusCode);
       if (response.statusCode == 200) {
         stopNames = loadNames(response.body);
         print("XXX");
@@ -39,9 +45,7 @@ class _UserHomeState extends State<UserHome> {
         print(stopNames);
         print("XXX");
 
-        setState(() {
-          loading = false;
-        });
+        setState(() => loading = false);
       } else {
         print("Error getting the users..! :/");
       }
@@ -51,12 +55,12 @@ class _UserHomeState extends State<UserHome> {
   }
 
   static List<BusStopName> loadNames(String jsonString) {
-    final parsed = json.decode(jsonString);
-    final p = parsed['about']['data'];
-    // print(p);
-    final data = p.cast<Map<String, dynamic>>();
-    print(data);
-    return data.map<BusStopName>((json) => BusStopName.fromJSON(json)).toList();
+    final parsed =
+        json.decode(jsonString)['about']['data'].cast<Map<String, dynamic>>();
+    print(parsed);
+    return parsed
+        .map<BusStopName>((json) => BusStopName.fromJSON(json))
+        .toList();
   }
 
   @override
@@ -70,11 +74,16 @@ class _UserHomeState extends State<UserHome> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
+        SizedBox(width: 5),
         Text(
           name.busstopName,
-          style: TextStyle(fontSize: 16.0),
+          style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Colors.grey),
         ),
-        SizedBox(width: 10),
+        // SizedBox(height: 10),
       ],
     );
   }
@@ -103,88 +112,114 @@ class _UserHomeState extends State<UserHome> {
         ],
       ),
       body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: showHomePage()),
+          mainAxisAlignment: MainAxisAlignment.start, children: showHomePage()),
     );
   }
 
   List<Widget> showHomePage() {
-    return [
-      SizedBox(height: 40.0),
-      Container(
-        padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-        child: Column(
-          children: <Widget>[
-            // TextFormField(
-            //   controller: fromStop,
-            //   decoration: getInputFieldDecoration('FROM'),
-            // ),
-            searchTextField = AutoCompleteTextField<BusStopName>(
-              textCapitalization: TextCapitalization.characters,
-              suggestionsAmount: 3,
-              controller: fromStop,
-              key: fKey,
-              clearOnSubmit: false,
-              suggestions: stopNames,
-              decoration: getInputFieldDecoration('FROM'),
-              itemFilter: (item, query) {
-                return item.busstopName
-                    .toLowerCase()
-                    .startsWith(query.toLowerCase());
-              },
-              itemSorter: (a, b) {
-                return a.busstopName.compareTo(b.busstopName);
-              },
-              itemSubmitted: (item) {
-                setState(() {
-                  searchTextField.textField.controller.text = item.busstopName;
-                });
-              },
-              itemBuilder: (context, item) {
-                //UI for the autocomplete row
-                return row(item);
-              },
-            ),
-
-            SizedBox(height: 20.0),
-            TextFormField(
-              controller: toStop,
-              decoration: getInputFieldDecoration('TO'),
-            ),
-            SizedBox(height: 25.0),
-            //Button
+    return (loading
+        ? [CircularProgressIndicator()]
+        : [
+            SizedBox(height: 40.0),
             Container(
-              height: 40.0,
-              child: InkWell(
-                onTap: () async {
-                  var map = new Map<String, dynamic>();
+              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+              child: Column(
+                children: <Widget>[
+                  searchTextFieldA = AutoCompleteTextField<BusStopName>(
+                    textCapitalization: TextCapitalization.characters,
+                    suggestionsAmount: 5,
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                    controller: fromStop,
+                    key: fKeyA,
+                    clearOnSubmit: false,
+                    suggestions: stopNames,
+                    decoration: getInputFieldDecoration('FROM'),
+                    itemFilter: (item, query) {
+                      return item.busstopName
+                          .toLowerCase()
+                          .startsWith(query.toLowerCase());
+                    },
+                    itemSorter: (a, b) {
+                      return a.busstopName.compareTo(b.busstopName);
+                    },
+                    itemSubmitted: (item) {
+                      setState(() => searchTextFieldA
+                          .textField.controller.text = item.busstopName);
+                    },
+                    itemBuilder: (context, item) {
+                      //UI for the autocomplete row
+                      return row(item);
+                    },
+                  ),
 
-                  map['from'] = fromStop.text;
-                  map['to'] = toStop.text;
-                  var res = await getBusData(map);
+                  SizedBox(height: 20.0),
+                  searchTextFieldB = AutoCompleteTextField<BusStopName>(
+                    textCapitalization: TextCapitalization.characters,
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                    suggestionsAmount: 5,
+                    controller: toStop,
+                    key: fKeyB,
+                    clearOnSubmit: false,
+                    suggestions: stopNames,
+                    decoration: getInputFieldDecoration('TO'),
+                    itemFilter: (item, query) {
+                      return item.busstopName
+                          .toLowerCase()
+                          .startsWith(query.toLowerCase());
+                    },
+                    itemSorter: (a, b) {
+                      return a.busstopName.compareTo(b.busstopName);
+                    },
+                    itemSubmitted: (item) {
+                      setState(() => searchTextFieldB
+                          .textField.controller.text = item.busstopName);
+                    },
+                    itemBuilder: (context, item) {
+                      //UI for the autocomplete row
+                      return row(item);
+                    },
+                  ),
+                  SizedBox(height: 25.0),
+                  //Button
+                  Container(
+                    height: 40.0,
+                    child: InkWell(
+                      onTap: () async {
+                        var map = new Map<String, dynamic>();
 
-                  if (res != null) {
-                    if (res.success) {
-                      var data = res.about['data'];
+                        map['from'] = fromStop.text;
+                        map['to'] = toStop.text;
+                        var res = await getBusData(map);
 
-                      Navigator.pushNamed(context, '/businfo', arguments: data);
-                    }
-                  } else {
-                    mykey.currentState.showSnackBar(SnackBar(
-                        content: Text('Login Failed..:/'),
-                        duration: Duration(seconds: 3)));
-                  }
-                },
-                child: getColorButton('GO'),
+                        if (res != null) {
+                          if (res.success) {
+                            var data = res.about['data'];
+
+                            Navigator.pushNamed(context, '/businfo',
+                                arguments: data);
+                          }
+                        } else {
+                          mykey.currentState.showSnackBar(SnackBar(
+                              content: Text('Login Failed..:/'),
+                              duration: Duration(seconds: 3)));
+                        }
+                      },
+                      child: getColorButton('GO'),
+                    ),
+                  ),
+
+                  SizedBox(height: 20.0),
+                ],
               ),
             ),
-
-            SizedBox(height: 20.0),
-          ],
-        ),
-      ),
-      SizedBox(height: 15.0),
-    ];
+            SizedBox(height: 15.0),
+          ]);
   }
 }
 

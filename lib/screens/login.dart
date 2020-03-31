@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                       child: getButtonWithLogo(
-                          'Login with GMail', Icons.mail_outline),
+                          'Login as Guest', Icons.accessibility),
                     ))
               ],
             ),

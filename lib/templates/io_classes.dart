@@ -32,6 +32,8 @@ class BusStopName {
   BusStopName({this.busstopName});
 
   factory BusStopName.fromJSON(Map<String, dynamic> data) {
+    // return BusStopName(busstopName: data['busstop'] as String);
     return BusStopName(busstopName: data['busstop'] as String);
+
   }
 }
