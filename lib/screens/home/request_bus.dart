@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:I_Love_KSRTC/templates/alert_box.dart';
 import 'package:I_Love_KSRTC/templates/buttons.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
@@ -9,12 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserHome extends StatefulWidget {
+class RequestBus extends StatefulWidget {
   @override
-  _UserHomeState createState() => _UserHomeState();
+  _RequestBusState createState() => _RequestBusState();
 }
 
-class _UserHomeState extends State<UserHome> {
+class _RequestBusState extends State<RequestBus> {
   GlobalKey<ScaffoldState> mykey = new GlobalKey<ScaffoldState>();
 
   AutoCompleteTextField searchTextFieldA;
@@ -35,15 +36,11 @@ class _UserHomeState extends State<UserHome> {
       String url = Env.get().ip;
       url = url + '/private/user/getAllBusNames';
       print(url);
-      // url = "https://jsonplaceholder.typicode.com/users";
       http.Response response = await http.get(url);
       print(response.statusCode);
       if (response.statusCode == 200) {
         stopNames = loadNames(response.body);
-        print("XXX");
-        // print(stopNames[0].busstopName);
         print(stopNames);
-        print("XXX");
 
         setState(() => loading = false);
       } else {
@@ -90,10 +87,11 @@ class _UserHomeState extends State<UserHome> {
 
   @override
   Widget build(BuildContext context) {
+    // var username = ModalRoute.of(context).settings.arguments;
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text('Hello'),
+        // title: Text('Hello ' + username + ' !'),
         backgroundColor: Colors.green,
         automaticallyImplyLeading: false,
         actions: <Widget>[
@@ -118,7 +116,13 @@ class _UserHomeState extends State<UserHome> {
 
   List<Widget> showHomePage() {
     return (loading
-        ? [CircularProgressIndicator()]
+        ? [
+            Center(
+              child: CircularProgressIndicator(
+                  valueColor:
+                      new AlwaysStoppedAnimation<Color>(Colors.greenAccent)),
+            )
+          ]
         : [
             SizedBox(height: 40.0),
             Container(
@@ -198,16 +202,18 @@ class _UserHomeState extends State<UserHome> {
                         var res = await getBusData(map);
 
                         if (res != null) {
-                          if (res.success) {
-                            var data = res.about['data'];
+                          var data = res.about['data'];
 
+                          if (res.success && !data.isEmpty) {
                             Navigator.pushNamed(context, '/businfo',
                                 arguments: data);
+                          } else if (res.success && data.isEmpty) {
+                            await showAlertBox(context, "No Buses",
+                                "Looks like no live buses now :/");
                           }
                         } else {
-                          mykey.currentState.showSnackBar(SnackBar(
-                              content: Text('Login Failed..:/'),
-                              duration: Duration(seconds: 3)));
+                          await showAlertBox(
+                              context, "ERROR", "Something went wrong :/");
                         }
                       },
                       child: getColorButton('GO'),
@@ -226,18 +232,14 @@ class _UserHomeState extends State<UserHome> {
 Future<dynamic> getBusData(Map<String, dynamic> map) async {
   try {
     String url = Env.get().ip;
-    url = url + '/private/user/retrieveAllLiveRoutes';
+    url = url + '/private/user/retrieveAllRoutes';
     http.Response response = await http.post(url, body: map);
     final int statusCode = response.statusCode;
-    print(statusCode);
     if (statusCode < 200 || statusCode > 400 || json == null) {
       throw new Exception('Error while fetching data..!');
     }
     var res = json.decode(response.body);
     Response ret = Response.fromJSON(res);
-    print(ret.about);
-    print(ret.status);
-    print(ret.success);
 
     return ret;
   } catch (err) {

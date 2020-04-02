@@ -1,4 +1,4 @@
-import 'package:I_Love_KSRTC/screens/custom_popup.dart';
+import 'package:I_Love_KSRTC/screens/home/custom_busdetail_popup.dart';
 import 'package:flutter/material.dart';
 
 Column detailCell(var x, BuildContext context) {

@@ -1,11 +1,11 @@
-import 'package:I_Love_KSRTC/screens/confirm.dart';
-import 'package:I_Love_KSRTC/screens/display_map.dart';
-import 'package:I_Love_KSRTC/screens/error.dart';
-import 'package:I_Love_KSRTC/screens/forgot_password.dart';
-import 'package:I_Love_KSRTC/screens/home.dart';
-import 'package:I_Love_KSRTC/screens/login.dart';
-import 'package:I_Love_KSRTC/screens/signup.dart';
-import 'package:I_Love_KSRTC/screens/user_bus_info.dart';
+import 'package:I_Love_KSRTC/screens/auth/confirm.dart';
+import 'package:I_Love_KSRTC/screens/auth/forgot_password.dart';
+import 'package:I_Love_KSRTC/screens/auth/login.dart';
+import 'package:I_Love_KSRTC/screens/auth/signup.dart';
+import 'package:I_Love_KSRTC/screens/home/display_map.dart';
+import 'package:I_Love_KSRTC/screens/home/home.dart';
+import 'package:I_Love_KSRTC/screens/home/request_bus.dart';
+import 'package:I_Love_KSRTC/screens/home/user_bus_info.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +17,9 @@ Future<void> main() async {
   print(id);
   runApp(MaterialApp(
     home: id == null ? LoginPage() : UserHome(),
+    // home: LoginPage(),
     // home: ConfirmPage(),
+    // home: SignUp(),
     // home: id == null ? UserHome() : LoginPage(),
     debugShowCheckedModeBanner: false,
     routes: {
@@ -28,7 +30,7 @@ Future<void> main() async {
       '/forgotpass': (context) => new ForgotPassword(),
       '/maps': (context) => MapPage(),
       '/confirmpage': (context) => ConfirmPage(),
-      '/error': (context) => ErrorPage(),
+      '/requestbus': (context) => RequestBus(),
     },
   ));
 }

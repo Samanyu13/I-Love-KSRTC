@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:I_Love_KSRTC/templates/alert_box.dart';
 import 'package:I_Love_KSRTC/templates/buttons.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
@@ -55,8 +56,8 @@ class _SignUpState extends State<SignUp> {
               fontWeight: FontWeight.bold),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
+        padding: EdgeInsets.only(top: 25.0, left: 20.0, right: 20.0),
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(top: 25.0, left: 20.0, right: 20.0),
@@ -103,13 +104,15 @@ class _SignUpState extends State<SignUp> {
                         if (res != null) {
                           if (res.success) {
                             Navigator.of(context).pushNamed('/confirmpage',
-                                arguments: res.about['data']);
+                                arguments: res.about);
                           } else {
-                            mykey.currentState.showSnackBar(SnackBar(
-                              content: Text('Oops..!Something went wrong..:/'),
-                              duration: Duration(seconds: 3),
-                            ));
-                            // Scaffold.of(context).showSnackBar(snackBar);
+                            if (res.status == 409) {
+                              await showAlertBox(
+                                  context,
+                                  "ERROR",
+                                  res.about['comment'] +
+                                      ' - ALREADY EXISTS..!');
+                            }
                           }
                         }
                       },
@@ -130,7 +133,6 @@ Future<dynamic> registerPost(UserSignUp regRequest) async {
     String url = Env.get().ip;
     url = url + '/auth/user/register';
 
-    // print(url);
     http.Response response = await http.post(url, body: regRequest.toMap());
     final int statusCode = response.statusCode;
     // print(statusCode);

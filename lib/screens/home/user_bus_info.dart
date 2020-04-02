@@ -20,6 +20,8 @@ class UserBusInfo extends StatelessWidget {
             onTap: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.remove('__UID');
+              prefs.remove('__UNAME');
+
               Navigator.of(context)
                   .pushNamedAndRemoveUntil('/login', (route) => false);
             },
