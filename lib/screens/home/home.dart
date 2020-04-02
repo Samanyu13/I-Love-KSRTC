@@ -86,12 +86,15 @@ class _UserHomeState extends State<UserHome> {
 
   @override
   Widget build(BuildContext context) {
-    var username = ModalRoute.of(context).settings.arguments;
-    print(username);
+    var data = ModalRoute.of(context).settings.arguments;
+    if (data == null) {
+      data = 'BeastMaster64';
+    }
+    print(data);
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text('Hello ' + username + ' !'),
+        title: Text('Hello ' + data + ' !'),
         backgroundColor: Colors.green,
         automaticallyImplyLeading: false,
         actions: <Widget>[

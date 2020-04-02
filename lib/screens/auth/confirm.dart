@@ -51,8 +51,6 @@ class ConfirmPage extends StatelessWidget {
                   onTap: () async {
                     dynamic id = ModalRoute.of(context).settings.arguments;
                     print(id['data']);
-                    id = id['data'];
-                    print(id['data']);
                     DateTime timestamp = new DateTime.now();
                     // print(timestamp);
                     var map = new Map<String, dynamic>();
@@ -66,8 +64,8 @@ class ConfirmPage extends StatelessWidget {
                         await showAlertBox(context, "SUCCESS :D",
                             'Press OK to move onto the LoginPage..!');
 
-                        Navigator.of(context)
-                            .pushNamedAndRemoveUntil('/login', (route) => false);
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            '/login', (route) => false);
                       } else {
                         await showAlertBox(context, "VERIFICATION FAILED",
                             res.about['comment']);

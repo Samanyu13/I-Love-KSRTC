@@ -112,13 +112,14 @@ class _LoginPageState extends State<LoginPage> {
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             var token = res.about['data']['token'];
+                            var name = res.about['data']['name'];
                             // print(token);
                             prefs.setString('USER_TOKEN', token);
                             prefs.setString(
                                 '__UID', res.about['comment'].toString());
-
+                            prefs.setString('__UNAME', name);
                             Navigator.pushNamed(context, '/home',
-                                arguments: res.about['data']['name']);
+                                arguments: name);
                           } else {
                             await showAlertBox(context, "Unsucessful Login",
                                 "Oops..Login Failed..! Try Again");
@@ -137,8 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () async {
-                        Navigator.pushNamed(context, '/home',
-                            arguments: 'BeastMaster64');
+                        Navigator.pushNamed(context, '/home');
                       },
                       child: getButtonWithLogo(
                           'Login as Guest', Icons.accessibility),
