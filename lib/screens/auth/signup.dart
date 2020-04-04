@@ -1,33 +1,13 @@
 import 'dart:convert';
 
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
-import 'package:I_Love_KSRTC/templates/buttons.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
+import 'package:I_Love_KSRTC/templates/submit_button.dart';
 import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-
-class UserSignUp {
-  final String userName;
-  final String email;
-  final String password;
-  final String mobileNo;
-
-  UserSignUp({this.userName, this.email, this.password, this.mobileNo});
-
-  Map toMap() {
-    var map = new Map<String, dynamic>();
-
-    map['userName'] = userName;
-    map['email'] = email;
-    map['password'] = password;
-    map['mobileNo'] = mobileNo;
-
-    return map;
-  }
-}
 
 class SignUp extends StatefulWidget {
   @override
@@ -77,6 +57,7 @@ class _SignUpState extends State<SignUp> {
                 TextField(
                   controller: password,
                   decoration: getInputFieldDecoration('PASSWORD'),
+                  obscureText: true,
                 ),
                 SizedBox(height: 10.0),
                 TextField(
@@ -85,39 +66,32 @@ class _SignUpState extends State<SignUp> {
                   decoration: getInputFieldDecoration('MOBILE NUMBER'),
                 ),
                 SizedBox(height: 40.0),
-                Container(
-                  height: 40.0,
-                  child: InkWell(
-                      onTap: () async {
-                        UserSignUp regRequest = new UserSignUp(
-                            // userName: userName.text,
-                            // email: email.text,
-                            // password: password.text,
-                            // mobileNo: mobileNo.text);
+                SubmitButton('SIGNUP', () async {
+                  var map = new Map<String, dynamic>();
 
-                            userName: "Soman",
-                            email: "samanyu@cet.ac.in",
-                            password: "12345678",
-                            mobileNo: "8281812793");
-                        var res = await registerPost(regRequest);
+                  // map['userName'] = username.text;
+                  // map['email'] = email.text;
+                  // map['password'] = password.text;
+                  // map['mobileNo'] = mobileNo.text;
+                  map['userName'] = "Soman";
+                  map['email'] = "samanyu@cet.ac.in";
+                  map['password'] = "12345678";
+                  map['mobileNo'] = "8281812793";
 
-                        if (res != null) {
-                          if (res.success) {
-                            Navigator.of(context).pushNamed('/confirmpage',
-                                arguments: res.about);
-                          } else {
-                            if (res.status == 409) {
-                              await showAlertBox(
-                                  context,
-                                  "ERROR",
-                                  res.about['comment'] +
-                                      ' - ALREADY EXISTS..!');
-                            }
-                          }
-                        }
-                      },
-                      child: getColorButton('SIGNUP')),
-                ),
+                  var res = await registerPost(map);
+
+                  if (res != null) {
+                    if (res.success) {
+                      Navigator.of(context)
+                          .pushNamed('/confirmpage', arguments: res.about);
+                    } else {
+                      if (res.status == 409) {
+                        await showAlertBox(context, "ERROR",
+                            res.about['comment'] + ' - ALREADY EXISTS..!');
+                      }
+                    }
+                  }
+                }),
                 SizedBox(height: 20.0),
               ],
             ),
@@ -128,12 +102,12 @@ class _SignUpState extends State<SignUp> {
   }
 }
 
-Future<dynamic> registerPost(UserSignUp regRequest) async {
+Future<dynamic> registerPost(Map<String, dynamic> map) async {
   try {
     String url = Env.get().ip;
     url = url + '/auth/user/register';
 
-    http.Response response = await http.post(url, body: regRequest.toMap());
+    http.Response response = await http.post(url, body: map);
     final int statusCode = response.statusCode;
     // print(statusCode);
     if (statusCode < 200 || statusCode > 400 || json == null) {

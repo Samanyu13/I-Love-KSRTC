@@ -1,21 +1,5 @@
 import 'package:flutter/material.dart';
 
-Material getColorButton(String text) {
-  return Material(
-    borderRadius: BorderRadius.circular(20.0),
-    shadowColor: Colors.greenAccent,
-    color: Colors.green,
-    elevation: 7.0,
-    child: Center(
-      child: Text(text,
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Montserrat')),
-    ),
-  );
-}
-
 Container getButtonWithLogo(String text, IconData icon) {
   return Container(
     decoration: BoxDecoration(

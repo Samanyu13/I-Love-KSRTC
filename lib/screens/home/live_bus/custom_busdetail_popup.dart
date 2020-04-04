@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CustomPopup extends StatelessWidget {
+class CustomBusDetailPopup extends StatelessWidget {
   final String title;
   final data;
 
-  CustomPopup({
+  CustomBusDetailPopup({
     @required this.title,
     @required this.data,
   });

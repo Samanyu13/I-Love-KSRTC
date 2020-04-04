@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
 import 'package:I_Love_KSRTC/templates/app_drawer.dart';
-import 'package:I_Love_KSRTC/templates/buttons.dart';
+import 'package:I_Love_KSRTC/templates/button_with_logo.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
+import 'package:I_Love_KSRTC/templates/submit_button.dart';
 import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -95,42 +96,35 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 40.0),
-                Container(
-                  height: 40.0,
-                  child: InkWell(
-                      onTap: () async {
-                        var map = new Map<String, dynamic>();
+                //Login
+                SubmitButton('LOGIN', () async {
+                  var map = new Map<String, dynamic>();
 
-                        map['password'] = password.text;
-                        map['email'] = mail.text;
-                        var res = await loginPost(map);
+                  map['password'] = password.text;
+                  map['email'] = mail.text;
+                  var res = await loginPost(map);
 
-                        if (res != null) {
-                          print("Keri");
-                          if (res.success) {
-                            print("Succ aane mone");
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            var token = res.about['data']['token'];
-                            var name = res.about['data']['name'];
-                            // print(token);
-                            prefs.setString('USER_TOKEN', token);
-                            prefs.setString(
-                                '__UID', res.about['comment'].toString());
-                            prefs.setString('__UNAME', name);
-                            Navigator.pushNamed(context, '/home',
-                                arguments: name);
-                          } else {
-                            await showAlertBox(context, "Unsucessful Login",
-                                "Oops..Login Failed..! Try Again");
-                          }
-                        } else {
-                          await showAlertBox(context, "ERROR",
-                              "Something went wrong..! Please try Again");
-                        }
-                      },
-                      child: getColorButton('LOGIN')),
-                ),
+                  if (res != null) {
+                    if (res.success) {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      var token = res.about['data']['token'];
+                      var name = res.about['data']['name'];
+                      // print(token);
+                      prefs.setString('USER_TOKEN', token);
+                      prefs.setString('__UID', res.about['comment'].toString());
+                      prefs.setString('__UNAME', name);
+                      Navigator.pushNamed(context, '/home', arguments: name);
+                    } else {
+                      print(res.about);
+                      await showAlertBox(
+                          context, "Unsucessful Login", res.about['comment']);
+                    }
+                  } else {
+                    await showAlertBox(context, "CONNECTION ERROR",
+                        "Could'nt connect to the server..! Please try Again");
+                  }
+                }),
                 SizedBox(height: 20.0),
                 //Login as Guest
                 Container(

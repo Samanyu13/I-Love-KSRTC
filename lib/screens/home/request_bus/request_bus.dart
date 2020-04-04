@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
-import 'package:I_Love_KSRTC/templates/buttons.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
+import 'package:I_Love_KSRTC/templates/submit_button.dart';
 import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +91,7 @@ class _RequestBusState extends State<RequestBus> {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        // title: Text('Hello ' + username + ' !'),
+        title: Text('REQUEST BUS'),
         backgroundColor: Colors.green,
         automaticallyImplyLeading: false,
         actions: <Widget>[
@@ -193,34 +193,28 @@ class _RequestBusState extends State<RequestBus> {
                   ),
                   SizedBox(height: 25.0),
                   //Button
-                  Container(
-                    height: 40.0,
-                    child: InkWell(
-                      onTap: () async {
-                        var map = new Map<String, dynamic>();
+                  SubmitButton('GO', () async {
+                    var map = new Map<String, dynamic>();
 
-                        map['from'] = fromStop.text;
-                        map['to'] = toStop.text;
-                        var res = await getBusData(map);
+                    map['from'] = fromStop.text;
+                    map['to'] = toStop.text;
+                    var res = await getRouteData(map);
 
-                        if (res != null) {
-                          var data = res.about['data'];
-
-                          if (res.success && !data.isEmpty) {
-                            Navigator.pushNamed(context, '/businfo',
-                                arguments: data);
-                          } else if (res.success && data.isEmpty) {
-                            await showAlertBox(context, "No Buses",
-                                "Looks like no live buses now :/");
-                          }
-                        } else {
-                          await showAlertBox(
-                              context, "ERROR", "Something went wrong :/");
-                        }
-                      },
-                      child: getColorButton('GO'),
-                    ),
-                  ),
+                    if (res != null) {
+                      var data = res.about['data'];
+                      print(data);
+                      if (res.success && !data.isEmpty) {
+                        Navigator.pushNamed(context, '/dynamicroutelist',
+                            arguments: data);
+                      } else if (res.success && data.isEmpty) {
+                        await showAlertBox(context, "No Routes",
+                            "Looks like no such direct routes found :/");
+                      }
+                    } else {
+                      await showAlertBox(
+                          context, "ERROR", "Something went wrong :/");
+                    }
+                  }),
 
                   SizedBox(height: 20.0),
                 ],
@@ -231,7 +225,7 @@ class _RequestBusState extends State<RequestBus> {
   }
 }
 
-Future<dynamic> getBusData(Map<String, dynamic> map) async {
+Future<dynamic> getRouteData(Map<String, dynamic> map) async {
   try {
     String url = Env.get().ip;
     url = url + '/private/user/retrieveAllRoutes';

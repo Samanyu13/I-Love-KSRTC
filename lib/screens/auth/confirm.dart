@@ -1,22 +1,19 @@
 import 'dart:convert';
 
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
-import 'package:I_Love_KSRTC/templates/buttons.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
+import 'package:I_Love_KSRTC/templates/submit_button.dart';
 import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ConfirmPage extends StatelessWidget {
-  final GlobalKey<ScaffoldState> mykey = new GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     TextEditingController otp = new TextEditingController();
 
     return Scaffold(
-        key: mykey,
         appBar: AppBar(
           backgroundColor: Colors.green,
           title: Text('CONFIRM',
@@ -45,39 +42,33 @@ class ConfirmPage extends StatelessWidget {
                 decoration: getInputFieldDecoration('OTP'),
               ),
               SizedBox(height: 40.0),
-              Container(
-                height: 40.0,
-                child: InkWell(
-                  onTap: () async {
-                    dynamic id = ModalRoute.of(context).settings.arguments;
-                    print(id['data']);
-                    DateTime timestamp = new DateTime.now();
-                    // print(timestamp);
-                    var map = new Map<String, dynamic>();
-                    map['otp'] = otp.text;
-                    map['timestamp'] = timestamp.toIso8601String();
-                    map['id'] = id['data'].toString();
-                    var res = await verifyPost(map);
+              SubmitButton('VERIFY', () async {
+                dynamic id = ModalRoute.of(context).settings.arguments;
+                print(id['data']);
+                DateTime timestamp = new DateTime.now();
+                // print(timestamp);
+                var map = new Map<String, dynamic>();
+                map['otp'] = otp.text;
+                map['timestamp'] = timestamp.toIso8601String();
+                map['id'] = id['data'].toString();
+                var res = await verifyPost(map);
 
-                    if (res != null) {
-                      if (res.success) {
-                        await showAlertBox(context, "SUCCESS :D",
-                            'Press OK to move onto the LoginPage..!');
+                if (res != null) {
+                  if (res.success) {
+                    await showAlertBox(context, "SUCCESS :D",
+                        'Press OK to move onto the LoginPage..!');
 
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            '/login', (route) => false);
-                      } else {
-                        await showAlertBox(context, "VERIFICATION FAILED",
-                            res.about['comment']);
-                      }
-                    } else {
-                      await showAlertBox(context, "CONNECTION FAILED",
-                          "Could'nt connect to the server:/");
-                    }
-                  },
-                  child: getColorButton('VERIFY'),
-                ),
-              ),
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/login', (route) => false);
+                  } else {
+                    await showAlertBox(
+                        context, "VERIFICATION FAILED", res.about['comment']);
+                  }
+                } else {
+                  await showAlertBox(context, "CONNECTION FAILED",
+                      "Could'nt connect to the server:/");
+                }
+              }),
             ],
           ),
         ));

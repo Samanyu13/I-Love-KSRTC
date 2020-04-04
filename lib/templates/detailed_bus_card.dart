@@ -1,7 +1,7 @@
-import 'package:I_Love_KSRTC/screens/home/custom_busdetail_popup.dart';
+import 'package:I_Love_KSRTC/screens/home/live_bus/custom_busdetail_popup.dart';
 import 'package:flutter/material.dart';
 
-Column detailCell(var x, BuildContext context) {
+Column busDetailCell(var x, BuildContext context) {
   return Column(
     children: <Widget>[
       Container(
@@ -44,7 +44,8 @@ Column detailCell(var x, BuildContext context) {
                           onPressed: () => {
                             showDialog(
                                 context: context,
-                                builder: (BuildContext context) => CustomPopup(
+                                builder: (BuildContext context) =>
+                                    CustomBusDetailPopup(
                                       title: "BUS DETAILS",
                                       data: x,
                                     ))
