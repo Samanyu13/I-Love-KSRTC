@@ -40,7 +40,6 @@ class _UserHomeState extends State<UserHome> {
       print(response.statusCode);
       if (response.statusCode == 200) {
         stopNames = loadNames(response.body);
-        print(stopNames);
 
         setState(() => loading = false);
       } else {

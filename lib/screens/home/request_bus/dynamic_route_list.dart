@@ -45,7 +45,11 @@ class DynamicRouteList extends StatelessWidget {
                   color: Colors.green[100],
                   child: dynamicRouteDetailCell(data[i], context),
                 ),
-                onTap: () async {},
+                onTap: () async {
+                  print("Goto data entry");
+                  print(data[i]['route_data']);
+                      Navigator.pushNamed(context, '/home', arguments: data[i]);
+                },
               );
             }),
       ),

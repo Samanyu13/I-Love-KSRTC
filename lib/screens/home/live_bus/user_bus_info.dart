@@ -1,4 +1,4 @@
-import 'package:I_Love_KSRTC/templates/detailed_bus_card.dart';
+import 'package:I_Love_KSRTC/screens/home/live_bus/detailed_bus_card.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

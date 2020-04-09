@@ -19,7 +19,7 @@ Future showAlertBox(BuildContext context, String title, String body) {
         actions: <Widget>[
           FlatButton(
             child: Text('OK'),
-            onPressed: () {
+            onPressed: () async {
               Navigator.of(context).pop();
             },
           ),
