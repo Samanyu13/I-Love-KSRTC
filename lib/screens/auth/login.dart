@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
-import 'package:I_Love_KSRTC/templates/app_drawer.dart';
 import 'package:I_Love_KSRTC/templates/button_with_logo.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
@@ -20,15 +19,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<ScaffoldState> mykey = new GlobalKey<ScaffoldState>();
 
-  final mail = new TextEditingController();
-  final password = new TextEditingController();
+  final _mail = new TextEditingController();
+  final _password = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       key: mykey,
       resizeToAvoidBottomPadding: false,
-      drawer: AppDrawer(),
       appBar: AppBar(
         title: Text('Hello'),
         backgroundColor: Colors.green,
@@ -66,13 +64,13 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  controller: mail,
+                  controller: _mail,
                   keyboardType: TextInputType.emailAddress,
                   decoration: getInputFieldDecoration('EMAIL'),
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
-                  controller: password,
+                  controller: _password,
                   decoration: getInputFieldDecoration('PASSWORD'),
                   obscureText: true,
                 ),
@@ -100,8 +98,8 @@ class _LoginPageState extends State<LoginPage> {
                 SubmitButton('LOGIN', () async {
                   var map = new Map<String, dynamic>();
 
-                  map['password'] = password.text;
-                  map['email'] = mail.text;
+                  map['password'] = _password.text;
+                  map['email'] = _mail.text;
                   var res = await loginPost(map);
 
                   if (res != null) {

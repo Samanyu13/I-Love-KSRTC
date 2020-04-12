@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:I_Love_KSRTC/screens/home/drawer/app_drawer.dart';
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
@@ -26,10 +27,10 @@ class _UserHomeState extends State<UserHome> {
 
   bool loading = true;
 
-  final fromStop = new TextEditingController();
-  final toStop = new TextEditingController();
+  final _fromStop = new TextEditingController();
+  final _toStop = new TextEditingController();
 
-  static List<BusStopName> stopNames = List<BusStopName>();
+  static List<BusStopName> _stopNames = List<BusStopName>();
 
   void getBusStops() async {
     try {
@@ -39,7 +40,7 @@ class _UserHomeState extends State<UserHome> {
       http.Response response = await http.get(url);
       print(response.statusCode);
       if (response.statusCode == 200) {
-        stopNames = loadNames(response.body);
+        _stopNames = loadNames(response.body);
 
         setState(() => loading = false);
       } else {
@@ -92,6 +93,7 @@ class _UserHomeState extends State<UserHome> {
     print(data);
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
+      drawer: AppDrawer(),
       appBar: AppBar(
         title: Text('Hello ' + data + ' !'),
         backgroundColor: Colors.green,
@@ -140,10 +142,10 @@ class _UserHomeState extends State<UserHome> {
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
-                    controller: fromStop,
+                    controller: _fromStop,
                     key: fKeyA,
                     clearOnSubmit: false,
-                    suggestions: stopNames,
+                    suggestions: _stopNames,
                     decoration: getInputFieldDecoration('FROM'),
                     itemFilter: (item, query) {
                       return item.busstopName
@@ -171,10 +173,10 @@ class _UserHomeState extends State<UserHome> {
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
                     suggestionsAmount: 5,
-                    controller: toStop,
+                    controller: _toStop,
                     key: fKeyB,
                     clearOnSubmit: false,
-                    suggestions: stopNames,
+                    suggestions: _stopNames,
                     decoration: getInputFieldDecoration('TO'),
                     itemFilter: (item, query) {
                       return item.busstopName
@@ -198,8 +200,8 @@ class _UserHomeState extends State<UserHome> {
                   SubmitButton('GO', () async {
                     var map = new Map<String, dynamic>();
 
-                    map['from'] = fromStop.text;
-                    map['to'] = toStop.text;
+                    map['from'] = _fromStop.text;
+                    map['to'] = _toStop.text;
                     var res = await getBusData(map);
 
                     if (res != null) {

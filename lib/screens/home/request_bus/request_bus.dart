@@ -24,12 +24,12 @@ class _RequestBusState extends State<RequestBus> {
   GlobalKey<AutoCompleteTextFieldState<BusStopName>> fKeyA = new GlobalKey();
   GlobalKey<AutoCompleteTextFieldState<BusStopName>> fKeyB = new GlobalKey();
 
-  bool loading = true;
+  bool _loading = true;
 
-  final fromStop = new TextEditingController();
-  final toStop = new TextEditingController();
+  final _fromStop = new TextEditingController();
+  final _toStop = new TextEditingController();
 
-  static List<BusStopName> stopNames = List<BusStopName>();
+  static List<BusStopName> _stopNames = List<BusStopName>();
 
   void getBusStops() async {
     try {
@@ -39,10 +39,10 @@ class _RequestBusState extends State<RequestBus> {
       http.Response response = await http.get(url);
       print(response.statusCode);
       if (response.statusCode == 200) {
-        stopNames = loadNames(response.body);
-        print(stopNames);
+        _stopNames = loadNames(response.body);
+        print(_stopNames);
 
-        setState(() => loading = false);
+        setState(() => _loading = false);
       } else {
         print("Error getting the users..! :/");
       }
@@ -117,7 +117,7 @@ class _RequestBusState extends State<RequestBus> {
   }
 
   List<Widget> showHomePage() {
-    return (loading
+    return (_loading
         ? [
             Center(
               child: CircularProgressIndicator(
@@ -136,12 +136,13 @@ class _RequestBusState extends State<RequestBus> {
                     suggestionsAmount: 5,
                     style: TextStyle(
                         fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
+
                         fontSize: 16),
-                    controller: fromStop,
+                    controller: _fromStop,
                     key: fKeyA,
                     clearOnSubmit: false,
-                    suggestions: stopNames,
+                    suggestions: _stopNames,
                     decoration: getInputFieldDecoration('FROM'),
                     itemFilter: (item, query) {
                       return item.busstopName
@@ -166,13 +167,13 @@ class _RequestBusState extends State<RequestBus> {
                     textCapitalization: TextCapitalization.characters,
                     style: TextStyle(
                         fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                         fontSize: 16),
                     suggestionsAmount: 5,
-                    controller: toStop,
+                    controller: _toStop,
                     key: fKeyB,
                     clearOnSubmit: false,
-                    suggestions: stopNames,
+                    suggestions: _stopNames,
                     decoration: getInputFieldDecoration('TO'),
                     itemFilter: (item, query) {
                       return item.busstopName
@@ -196,13 +197,15 @@ class _RequestBusState extends State<RequestBus> {
                   SubmitButton('GO', () async {
                     var map = new Map<String, dynamic>();
 
-                    map['from'] = fromStop.text;
-                    map['to'] = toStop.text;
+                    map['from'] = _fromStop.text;
+                    map['to'] = _toStop.text;
                     var res = await getRouteData(map);
 
                     if (res != null) {
                       var data = res.about['data'];
+                      print("XXX");
                       print(data);
+                      print("XXX");
                       if (res.success && !data.isEmpty) {
                         Navigator.pushNamed(context, '/dynamicroutelist',
                             arguments: data);

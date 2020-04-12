@@ -18,10 +18,10 @@ class _SignUpState extends State<SignUp> {
   final GlobalKey<ScaffoldState> mykey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    TextEditingController email = new TextEditingController();
-    TextEditingController password = new TextEditingController();
-    TextEditingController mobileNo = new TextEditingController();
-    TextEditingController userName = new TextEditingController();
+    TextEditingController _email = new TextEditingController();
+    TextEditingController _password = new TextEditingController();
+    TextEditingController _mobileNo = new TextEditingController();
+    TextEditingController _userName = new TextEditingController();
 
     return Scaffold(
       key: mykey,
@@ -44,35 +44,35 @@ class _SignUpState extends State<SignUp> {
             child: Column(
               children: <Widget>[
                 TextField(
-                  controller: userName,
+                  controller: _userName,
                   decoration: getInputFieldDecoration('USERNAME'),
                 ),
                 SizedBox(height: 10.0),
                 TextField(
                   keyboardType: TextInputType.emailAddress,
-                  controller: email,
+                  controller: _email,
                   decoration: getInputFieldDecoration('EMAIL'),
                 ),
                 SizedBox(height: 10.0),
                 TextField(
-                  controller: password,
+                  controller: _password,
                   decoration: getInputFieldDecoration('PASSWORD'),
                   obscureText: true,
                 ),
                 SizedBox(height: 10.0),
                 TextField(
                   keyboardType: TextInputType.number,
-                  controller: mobileNo,
+                  controller: _mobileNo,
                   decoration: getInputFieldDecoration('MOBILE NUMBER'),
                 ),
                 SizedBox(height: 40.0),
                 SubmitButton('SIGNUP', () async {
                   var map = new Map<String, dynamic>();
 
-                  // map['userName'] = username.text;
-                  // map['email'] = email.text;
-                  // map['password'] = password.text;
-                  // map['mobileNo'] = mobileNo.text;
+                  // map['userName'] = _username.text;
+                  // map['email'] = _email.text;
+                  // map['password'] = _password.text;
+                  // map['mobileNo'] = _mobileNo.text;
                   map['userName'] = "Soman";
                   map['email'] = "samanyu@cet.ac.in";
                   map['password'] = "12345678";

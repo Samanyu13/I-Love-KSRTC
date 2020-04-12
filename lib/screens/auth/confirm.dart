@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 class ConfirmPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TextEditingController otp = new TextEditingController();
+    TextEditingController _otp = new TextEditingController();
 
     return Scaffold(
         appBar: AppBar(
@@ -38,18 +38,18 @@ class ConfirmPage extends StatelessWidget {
               SizedBox(height: 10.0),
               TextField(
                 keyboardType: TextInputType.text,
-                controller: otp,
+                controller: _otp,
                 decoration: getInputFieldDecoration('OTP'),
               ),
               SizedBox(height: 40.0),
               SubmitButton('VERIFY', () async {
                 dynamic id = ModalRoute.of(context).settings.arguments;
                 print(id['data']);
-                DateTime timestamp = new DateTime.now();
+                DateTime _timestamp = new DateTime.now();
                 // print(timestamp);
                 var map = new Map<String, dynamic>();
-                map['otp'] = otp.text;
-                map['timestamp'] = timestamp.toIso8601String();
+                map['otp'] = _otp.text;
+                map['timestamp'] = _timestamp.toIso8601String();
                 map['id'] = id['data'].toString();
                 var res = await verifyPost(map);
 

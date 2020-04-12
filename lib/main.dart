@@ -19,6 +19,7 @@ Future<void> main() async {
   print(id);
   runApp(MaterialApp(
     home: id == null ? LoginPage() : UserHome(),
+    // home: DynamicRouteDetailsInput(),
     // home: LoginPage(),
     // home: ConfirmPage(),
     // home: SignUp(),

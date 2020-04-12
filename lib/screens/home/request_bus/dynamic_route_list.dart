@@ -47,8 +47,8 @@ class DynamicRouteList extends StatelessWidget {
                 ),
                 onTap: () async {
                   print("Goto data entry");
-                  print(data[i]['route_data']);
-                      Navigator.pushNamed(context, '/home', arguments: data[i]);
+                  Navigator.pushNamed(context, '/routedetailsinput',
+                      arguments: data[i]);
                 },
               );
             }),
