@@ -1,11 +1,12 @@
-import 'package:I_Love_KSRTC/screens/home/live_bus/custom_busdetail_popup.dart';
+import 'package:I_Love_KSRTC/screens/home/data_getter/post.dart';
+import 'package:I_Love_KSRTC/templates/busstop_list.dart';
 import 'package:flutter/material.dart';
 
 Column busDetailCell(var x, BuildContext context) {
   return Column(
     children: <Widget>[
       Container(
-        // padding: new EdgeInsets.all(10.0),
+        padding: new EdgeInsets.fromLTRB(10, 5, 10, 5),
         child: Column(
           children: <Widget>[
             Row(
@@ -41,25 +42,26 @@ Column busDetailCell(var x, BuildContext context) {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         OutlineButton(
-                          onPressed: () => {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    CustomBusDetailPopup(
-                                      title: "BUS DETAILS",
-                                      data: x,
-                                    ))
+                          onPressed: () async {
+                            var map = new Map<String, dynamic>();
+                            map['route_id'] = x['route_id'];
+
+                            String url = '/private/user/getAllStopsByID';
+                            var res = await postWithBodyOnly(map, url);
+                            var data = res.about['data'];
+                            await showBusStopListPopup(context, data);
                           },
                           child: Text(
-                            "More details.",
+                            "Bus Stops",
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 decorationColor: Colors.black),
                           ),
                         ),
                         RaisedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed('/maps');
+                          onPressed: () async {
+                            Navigator.of(context)
+                                .pushNamed('/maps', arguments: x['route_id']);
                           },
                           color: Colors.greenAccent,
                           child: Text(

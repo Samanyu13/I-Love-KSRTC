@@ -1,14 +1,10 @@
-import 'dart:convert';
-
+import 'package:I_Love_KSRTC/screens/home/data_getter/post.dart';
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
 import 'package:I_Love_KSRTC/templates/button_with_logo.dart';
-import 'package:I_Love_KSRTC/templates/env.dart';
-import 'package:I_Love_KSRTC/templates/io_classes.dart';
 import 'package:I_Love_KSRTC/templates/submit_button.dart';
 import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -100,7 +96,8 @@ class _LoginPageState extends State<LoginPage> {
 
                   map['password'] = _password.text;
                   map['email'] = _mail.text;
-                  var res = await loginPost(map);
+                  String url = '/auth/user/login';
+                  var res = await postWithBodyOnly(map, url);
 
                   if (res != null) {
                     if (res.success) {
@@ -166,24 +163,5 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
-  }
-}
-
-Future<dynamic> loginPost(Map<String, dynamic> map) async {
-  try {
-    String url = Env.get().ip;
-    url = url + '/auth/user/login';
-
-    http.Response response = await http.post(url, body: map);
-    final int statusCode = response.statusCode;
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      throw new Exception("Error while fetching data..!");
-    }
-    var res = json.decode(response.body);
-    Response ret = Response.fromJSON(res);
-    return ret;
-  } catch (err) {
-    print(err);
-    return null;
   }
 }

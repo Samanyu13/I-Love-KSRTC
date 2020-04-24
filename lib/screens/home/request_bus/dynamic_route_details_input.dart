@@ -1,3 +1,5 @@
+import 'package:I_Love_KSRTC/screens/home/data_getter/post.dart';
+import 'package:I_Love_KSRTC/templates/alert_box.dart';
 import 'package:I_Love_KSRTC/templates/submit_button.dart';
 import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
@@ -187,14 +189,40 @@ class _DynamicRouteDetailsInputState extends State<DynamicRouteDetailsInput> {
               //BUTTON
               SubmitButton('SUBMIT', () async {
                 var map = new Map<String, dynamic>();
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                var _userId = prefs.getString('__UID');
 
-                map['route_id'] = data['route_id'];
-                map['date'] = _finaldate;
-                map['count'] = _count.text;
-                map['time_frame'] = _timeItems.indexOf(_timeFrame.text);
-
-                print(map);
-                // var res = await getRouteData(map);
+                if (_userId == null) {
+                  print('object');
+                  print('Poi LOGIN cheyyeda..!');
+                } else {
+                  map['user_id'] = _userId;
+                  map['route_id'] = data['route_id'];
+                  map['date'] = _finaldate.toString();
+                  map['count'] = _count.text.toString();
+                  map['time_frame'] =
+                      (_timeItems.indexOf(_timeFrame.text)).toString();
+                  print(map);
+                  String url = '/private/user/requestbus/requestbusInput';
+                  var res = await postWithBodyAndHeader(map, url);
+                  print(res);
+                  print(res.success);
+                  if (res != null) {
+                    if (res.success) {
+                      await showAlertBox(context, 'SUCCESS',
+                          'Your request has been submitted sucessfully..!');
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil('/home', (route) => false);
+                    } else {
+                      print(res.about);
+                      await showAlertBox(
+                          context, "ERROR", res.about['comment']);
+                    }
+                  } else {
+                    await showAlertBox(context, 'ERROR',
+                        "Could'nt connect to the server..! Please try Again");
+                  }
+                }
               })
             ],
           ),

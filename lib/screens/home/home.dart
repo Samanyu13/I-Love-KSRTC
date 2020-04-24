@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:I_Love_KSRTC/screens/home/data_getter/post.dart';
 import 'package:I_Love_KSRTC/screens/home/drawer/app_drawer.dart';
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
@@ -35,7 +36,7 @@ class _UserHomeState extends State<UserHome> {
   void getBusStops() async {
     try {
       String url = Env.get().ip;
-      url = url + '/private/user/getAllBusNames';
+      url = url + '/private/user/getAllBusStopNames';
       print(url);
       http.Response response = await http.get(url);
       print(response.statusCode);
@@ -60,11 +61,18 @@ class _UserHomeState extends State<UserHome> {
         .toList();
   }
 
+  var _name;
   @override
   void initState() {
     getBusStops();
 
+    getName();
     super.initState();
+  }
+
+  void getName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _name = prefs.getString('__UNAME');
   }
 
   Widget row(BusStopName name) {
@@ -86,34 +94,16 @@ class _UserHomeState extends State<UserHome> {
 
   @override
   Widget build(BuildContext context) {
-    var data = ModalRoute.of(context).settings.arguments;
-    if (data == null) {
-      data = 'BeastMaster64';
+    if (_name == null) {
+      _name = 'BeastMaster64';
     }
-    print(data);
+    print(_name);
     return new Scaffold(
-      resizeToAvoidBottomPadding: false,
       drawer: AppDrawer(),
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text('Hello ' + data + ' !'),
+        title: Text('Hello ' + _name + ' !'),
         backgroundColor: Colors.green,
-        automaticallyImplyLeading: false,
-        actions: <Widget>[
-          InkWell(
-            onTap: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.remove('__UID');
-              prefs.remove('__UNAME');
-
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/login', (route) => false);
-            },
-            child: Icon(Icons.phonelink_erase),
-          ),
-          SizedBox(
-            width: 20,
-          )
-        ],
       ),
       body: Column(
           mainAxisAlignment: MainAxisAlignment.start, children: showHomePage()),
@@ -202,7 +192,8 @@ class _UserHomeState extends State<UserHome> {
 
                     map['from'] = _fromStop.text;
                     map['to'] = _toStop.text;
-                    var res = await getBusData(map);
+                    String url = '/private/user/retrieveAllLiveRoutes';
+                    var res = await postWithBodyOnly(map, url);
 
                     if (res != null) {
                       var data = res.about['data'];
@@ -219,48 +210,10 @@ class _UserHomeState extends State<UserHome> {
                           context, "ERROR", "Something went wrong :/");
                     }
                   }),
-
-                  SizedBox(height: 60.0),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "Want a dynamic bus? ",
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 25,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Icon(Icons.directions_bus),
-                    ],
-                  ),
-                  SizedBox(height: 20.0),
-                  SubmitButton('REQUEST BUS', () async {
-                    Navigator.of(context).pushNamed('/requestbus');
-                  }),
                 ],
               ),
             ),
             SizedBox(height: 15.0),
           ]);
-  }
-}
-
-Future<dynamic> getBusData(Map<String, dynamic> map) async {
-  try {
-    String url = Env.get().ip;
-    url = url + '/private/user/retrieveAllLiveRoutes';
-    http.Response response = await http.post(url, body: map);
-    final int statusCode = response.statusCode;
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      throw new Exception('Error while fetching data..!');
-    }
-    var res = json.decode(response.body);
-    Response ret = Response.fromJSON(res);
-
-    return ret;
-  } catch (err) {
-    print(err);
-    return null;
   }
 }

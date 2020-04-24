@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:I_Love_KSRTC/screens/home/data_getter/post.dart';
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
 import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:I_Love_KSRTC/templates/io_classes.dart';
@@ -34,7 +35,7 @@ class _RequestBusState extends State<RequestBus> {
   void getBusStops() async {
     try {
       String url = Env.get().ip;
-      url = url + '/private/user/getAllBusNames';
+      url = url + '/private/user/getAllBusStopNames';
       print(url);
       http.Response response = await http.get(url);
       print(response.statusCode);
@@ -87,13 +88,11 @@ class _RequestBusState extends State<RequestBus> {
 
   @override
   Widget build(BuildContext context) {
-    // var username = ModalRoute.of(context).settings.arguments;
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text('REQUEST BUS'),
         backgroundColor: Colors.green,
-        automaticallyImplyLeading: false,
         actions: <Widget>[
           InkWell(
             onTap: () async {
@@ -137,7 +136,6 @@ class _RequestBusState extends State<RequestBus> {
                     style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w500,
-
                         fontSize: 16),
                     controller: _fromStop,
                     key: fKeyA,
@@ -199,13 +197,12 @@ class _RequestBusState extends State<RequestBus> {
 
                     map['from'] = _fromStop.text;
                     map['to'] = _toStop.text;
-                    var res = await getRouteData(map);
+                    String url = '/private/user/retrieveAllRoutes';
+                    var res = await postWithBodyOnly(map, url);
 
                     if (res != null) {
                       var data = res.about['data'];
-                      print("XXX");
                       print(data);
-                      print("XXX");
                       if (res.success && !data.isEmpty) {
                         Navigator.pushNamed(context, '/dynamicroutelist',
                             arguments: data);
@@ -225,24 +222,5 @@ class _RequestBusState extends State<RequestBus> {
             ),
             SizedBox(height: 15.0),
           ]);
-  }
-}
-
-Future<dynamic> getRouteData(Map<String, dynamic> map) async {
-  try {
-    String url = Env.get().ip;
-    url = url + '/private/user/retrieveAllRoutes';
-    http.Response response = await http.post(url, body: map);
-    final int statusCode = response.statusCode;
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      throw new Exception('Error while fetching data..!');
-    }
-    var res = json.decode(response.body);
-    Response ret = Response.fromJSON(res);
-
-    return ret;
-  } catch (err) {
-    print(err);
-    return null;
   }
 }

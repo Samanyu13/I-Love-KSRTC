@@ -1,13 +1,9 @@
-import 'dart:convert';
-
+import 'package:I_Love_KSRTC/screens/home/data_getter/post.dart';
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
-import 'package:I_Love_KSRTC/templates/env.dart';
-import 'package:I_Love_KSRTC/templates/io_classes.dart';
 import 'package:I_Love_KSRTC/templates/submit_button.dart';
 import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
   @override
@@ -77,8 +73,8 @@ class _SignUpState extends State<SignUp> {
                   map['email'] = "samanyu@cet.ac.in";
                   map['password'] = "12345678";
                   map['mobileNo'] = "8281812793";
-
-                  var res = await registerPost(map);
+                  String url = '/auth/user/register';
+                  var res = await postWithBodyOnly(map, url);
 
                   if (res != null) {
                     if (res.success) {
@@ -99,25 +95,5 @@ class _SignUpState extends State<SignUp> {
         ],
       ),
     );
-  }
-}
-
-Future<dynamic> registerPost(Map<String, dynamic> map) async {
-  try {
-    String url = Env.get().ip;
-    url = url + '/auth/user/register';
-
-    http.Response response = await http.post(url, body: map);
-    final int statusCode = response.statusCode;
-    // print(statusCode);
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      throw new Exception("Error while fetching data..!");
-    }
-    var res = json.decode(response.body);
-    Response ret = Response.fromJSON(res);
-    return ret;
-  } catch (err) {
-    print(err);
-    return null;
   }
 }

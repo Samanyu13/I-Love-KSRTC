@@ -1,12 +1,8 @@
-import 'dart:convert';
-
+import 'package:I_Love_KSRTC/screens/home/data_getter/post.dart';
 import 'package:I_Love_KSRTC/templates/alert_box.dart';
-import 'package:I_Love_KSRTC/templates/env.dart';
-import 'package:I_Love_KSRTC/templates/io_classes.dart';
 import 'package:I_Love_KSRTC/templates/submit_button.dart';
 import 'package:I_Love_KSRTC/templates/text_field_decor.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class ConfirmPage extends StatelessWidget {
   @override
@@ -51,7 +47,8 @@ class ConfirmPage extends StatelessWidget {
                 map['otp'] = _otp.text;
                 map['timestamp'] = _timestamp.toIso8601String();
                 map['id'] = id['data'].toString();
-                var res = await verifyPost(map);
+                String url = '/auth/user/verify';
+                var res = await postWithBodyOnly(map, url);
 
                 if (res != null) {
                   if (res.success) {
@@ -72,25 +69,5 @@ class ConfirmPage extends StatelessWidget {
             ],
           ),
         ));
-  }
-}
-
-Future<dynamic> verifyPost(Map<String, dynamic> map) async {
-  try {
-    String url = Env.get().ip;
-    url = url + '/auth/user/verify';
-
-    http.Response response = await http.post(url, body: map);
-    final int statusCode = response.statusCode;
-    print(statusCode);
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      throw new Exception("Error while fetching data..!");
-    }
-    var res = json.decode(response.body);
-    Response ret = Response.fromJSON(res);
-    return ret;
-  } catch (err) {
-    print(err);
-    return null;
   }
 }
