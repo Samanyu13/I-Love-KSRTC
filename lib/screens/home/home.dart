@@ -102,24 +102,21 @@ class _UserHomeState extends State<UserHome> {
       drawer: AppDrawer(),
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text('Hello ' + _name + ' !'),
+        title: Text('Hello ' + _name + ' !',
+        style: TextStyle(
+          fontFamily: 'Montserrat'
+        ),),
         backgroundColor: Colors.green,
       ),
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.start, children: showHomePage()),
+      body: Center(child: showHomePage()),
     );
   }
 
-  List<Widget> showHomePage() {
+  Widget showHomePage() {
     return (loading
-        ? [
-            Center(
-              child: CircularProgressIndicator(
-                  valueColor:
-                      new AlwaysStoppedAnimation<Color>(Colors.greenAccent)),
-            )
-          ]
-        : [
+        ? CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.greenAccent))
+        : Column(children: [
             SizedBox(height: 40.0),
             Container(
               padding: EdgeInsets.only(top: 35.0, left: 30.0, right: 30.0),
@@ -130,7 +127,7 @@ class _UserHomeState extends State<UserHome> {
                     suggestionsAmount: 5,
                     style: TextStyle(
                         fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                         fontSize: 16),
                     controller: _fromStop,
                     key: fKeyA,
@@ -160,7 +157,7 @@ class _UserHomeState extends State<UserHome> {
                     textCapitalization: TextCapitalization.characters,
                     style: TextStyle(
                         fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                         fontSize: 16),
                     suggestionsAmount: 5,
                     controller: _toStop,
@@ -214,6 +211,6 @@ class _UserHomeState extends State<UserHome> {
               ),
             ),
             SizedBox(height: 15.0),
-          ]);
+          ]));
   }
 }

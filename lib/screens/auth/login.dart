@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       key: mykey,
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text('Hello'),
+        title: Icon(Icons.person),
         backgroundColor: Colors.green,
       ),
       body: Column(
@@ -36,17 +36,17 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.fromLTRB(15.0, 40.0, 0.0, 0.0),
-                  child: Text('Hello',
+                  child: Text('WELCOME',
                       style: TextStyle(
-                          fontSize: 80.0,
+                          fontSize: 60.0,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Montserrat')),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(220.0, 45.0, 0.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(350.0, 45.0, 0.0, 0.0),
                   child: Text('.',
                       style: TextStyle(
-                          fontSize: 80.0,
+                          fontSize: 60.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.green)),
                 )

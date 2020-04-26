@@ -91,7 +91,10 @@ class _RequestBusState extends State<RequestBus> {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text('REQUEST BUS'),
+        title: Text(
+          'Request Bus',
+          style: TextStyle(fontFamily: 'Montserrat'),
+        ),
         backgroundColor: Colors.green,
         actions: <Widget>[
           InkWell(
@@ -110,21 +113,15 @@ class _RequestBusState extends State<RequestBus> {
           )
         ],
       ),
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.start, children: showHomePage()),
+      body: Center(child: showHomePage()),
     );
   }
 
-  List<Widget> showHomePage() {
+  Widget showHomePage() {
     return (_loading
-        ? [
-            Center(
-              child: CircularProgressIndicator(
-                  valueColor:
-                      new AlwaysStoppedAnimation<Color>(Colors.greenAccent)),
-            )
-          ]
-        : [
+        ? CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.greenAccent))
+        : Column(children: [
             SizedBox(height: 40.0),
             Container(
               padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
@@ -221,6 +218,6 @@ class _RequestBusState extends State<RequestBus> {
               ),
             ),
             SizedBox(height: 15.0),
-          ]);
+          ]));
   }
 }

@@ -5,8 +5,11 @@ import 'package:I_Love_KSRTC/screens/auth/signup.dart';
 import 'package:I_Love_KSRTC/screens/home/home.dart';
 import 'package:I_Love_KSRTC/screens/home/live_bus/display_map.dart';
 import 'package:I_Love_KSRTC/screens/home/live_bus/user_bus_info.dart';
+import 'package:I_Love_KSRTC/screens/home/request_bus/confirmed_request_buses.dart';
 import 'package:I_Love_KSRTC/screens/home/request_bus/dynamic_route_details_input.dart';
 import 'package:I_Love_KSRTC/screens/home/request_bus/dynamic_route_list.dart';
+import 'package:I_Love_KSRTC/screens/home/request_bus/live_history_request_buses.dart';
+import 'package:I_Love_KSRTC/screens/home/request_bus/processing_request_buses.dart';
 import 'package:I_Love_KSRTC/screens/home/request_bus/request_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +39,9 @@ Future<void> main() async {
       '/requestbus': (context) => RequestBus(),
       '/dynamicroutelist': (context) => DynamicRouteList(),
       '/routedetailsinput': (context) => DynamicRouteDetailsInput(),
+      '/processingRequestBuses': (context) => ProcessingRequestBus(),
+      '/confirmedRequestBuses': (context) => ConfirmedRequestBus(),
+      '/liveHistoryRequestBuses': (context) => LiveHistoryRequestBus(),
     },
   ));
 }

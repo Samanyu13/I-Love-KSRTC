@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ConfirmedRequestBus extends StatefulWidget {
+class ProcessingRequestBus extends StatefulWidget {
   @override
-  _ConfirmedRequestBusState createState() => _ConfirmedRequestBusState();
+  _ProcessingRequestBusState createState() => _ProcessingRequestBusState();
 }
 
-class _ConfirmedRequestBusState extends State<ConfirmedRequestBus> {
+class _ProcessingRequestBusState extends State<ProcessingRequestBus> {
   bool _loading = true;
   String _id, _token;
   List _data;
@@ -22,6 +22,7 @@ class _ConfirmedRequestBusState extends State<ConfirmedRequestBus> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _id = prefs.getString('__UID');
     _token = prefs.getString('USER_TOKEN');
+    print(_id);
   }
 
   void retrieveData() async {
@@ -29,10 +30,10 @@ class _ConfirmedRequestBusState extends State<ConfirmedRequestBus> {
       await getLocalData();
 
       String url = Env.get().ip;
-      url = url + '/private/user/getConfirmedByUserID';
-      print(url);
+      url = url + '/private/user/getProcessingByUserID';
       var map = new Map<String, dynamic>();
       map['user_id'] = _id;
+      print(map);
       http.Response response = await http.post(url, body: map, headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'x-access-token': _token
@@ -45,12 +46,11 @@ class _ConfirmedRequestBusState extends State<ConfirmedRequestBus> {
         Response ret = Response.fromJSON(res);
         if (ret.success) {
           _data = ret.about['data'];
-
           print(_data);
 
           if (_data.isEmpty) {
             showAlertBox(context, 'MESSAGE',
-                'Looks like you do not have any confirmed buses..!');
+                'Looks like you do not have any under-processing buses..!');
           }
         } else {
           showAlertBox(context, 'ERROR', ret.about['comment']);
@@ -60,6 +60,7 @@ class _ConfirmedRequestBusState extends State<ConfirmedRequestBus> {
       }
     } catch (err) {
       print(err);
+      print('Shit');
     }
   }
 
@@ -76,7 +77,7 @@ class _ConfirmedRequestBusState extends State<ConfirmedRequestBus> {
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(
-          'Confirmed Buses',
+          'Under-Processing Buses',
           style: TextStyle(fontFamily: 'Montserrat'),
         ),
         backgroundColor: Colors.green,
@@ -112,8 +113,8 @@ class _ConfirmedRequestBusState extends State<ConfirmedRequestBus> {
               return new Card(
                 margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 color: Colors.green[100],
-                child: confirmedCard(context, _data[i]['route_name'],
-                    _data[i]['date'], _data[i]['time']),
+                child: processingCard(context, _data[i]['route_name'],
+                    _data[i]['date'], _data[i]['time_frame']),
               );
             }));
   }

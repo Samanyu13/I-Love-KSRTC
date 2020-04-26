@@ -5,14 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserBusInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  List data = ModalRoute.of(context).settings.arguments;
+    List data = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'DETAILS',
-          style:
-              TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
+          'Details',
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+          ),
         ),
         backgroundColor: Colors.green,
         actions: <Widget>[
@@ -27,7 +28,9 @@ class UserBusInfo extends StatelessWidget {
             },
             child: Icon(Icons.phonelink_erase),
           ),
-          SizedBox(width: 20,)
+          SizedBox(
+            width: 20,
+          )
         ],
       ),
       body: new Center(
@@ -35,7 +38,7 @@ class UserBusInfo extends StatelessWidget {
             itemCount: data.length,
             itemBuilder: (context, i) {
               if (data.length == 0) {
-                print('SHIT');                
+                print('SHIT');
               }
               return Card(
                 margin: EdgeInsets.fromLTRB(10, 10, 10, 0),

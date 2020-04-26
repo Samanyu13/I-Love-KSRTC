@@ -43,12 +43,12 @@ class _AppDrawerState extends State<AppDrawer> {
           //******************************REQUESTED BUSES******************************
           createDrawerItem(
               icon: Icons.priority_high,
-              text: 'Non-verified Requests',
+              text: 'Under-Processing Requests',
               onTap: () {
                 if (_id == null) {
                   youShouldLogin(context);
                 } else {
-                  Navigator.of(context).pushNamed('/toverifyBuses');
+                  Navigator.of(context).pushNamed('/processingRequestBuses');
                 }
               }),
           //******************************CONFIRMED REQUESTED BUSES******************************
@@ -63,10 +63,14 @@ class _AppDrawerState extends State<AppDrawer> {
                 }
               }),
           createDrawerItem(
-              icon: Icons.all_inclusive,
-              text: 'All Buses',
+              icon: Icons.history,
+              text: 'Bus Requests Live History',
               onTap: () {
-                Navigator.pop(context);
+                if (_id == null) {
+                  youShouldLogin(context);
+                } else {
+                  Navigator.of(context).pushNamed('/liveHistoryRequestBuses');
+                }
               }),
           createDrawerItem(
               icon: Icons.phonelink_erase,
