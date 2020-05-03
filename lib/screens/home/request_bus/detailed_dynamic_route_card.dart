@@ -40,7 +40,6 @@ Column dynamicRouteDetailCell(var x, BuildContext context) {
 
 TextStyle detailCellTextStyle() {
   return TextStyle(
-    fontFamily: 'Montserrat',
     fontWeight: FontWeight.w500,
     // color: Colors.white
   );

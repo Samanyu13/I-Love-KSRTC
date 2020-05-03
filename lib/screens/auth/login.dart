@@ -23,143 +23,168 @@ class _LoginPageState extends State<LoginPage> {
     return new Scaffold(
       key: mykey,
       resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: Icon(Icons.person),
-        backgroundColor: Colors.green,
-      ),
+      appBar: AppBar(title: Icon(Icons.person)),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           //****************************************************************
-          Container(
-            child: Stack(
+          Expanded(
+            flex: 3,
+            child: Row(
+              // child: Stack(
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.fromLTRB(15.0, 40.0, 0.0, 0.0),
                   child: Text('WELCOME',
                       style: TextStyle(
-                          fontSize: 60.0,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Montserrat')),
+                          fontSize: 50.0, fontWeight: FontWeight.bold)),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(350.0, 45.0, 0.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
                   child: Text('.',
                       style: TextStyle(
-                          fontSize: 60.0,
+                          fontSize: 50.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.green)),
                 )
               ],
             ),
+            // ),
           ),
+
           //****************************************************************
           //Login
-          Container(
-            padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  controller: _mail,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: getInputFieldDecoration('EMAIL'),
-                ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  controller: _password,
-                  decoration: getInputFieldDecoration('PASSWORD'),
-                  obscureText: true,
-                ),
-                SizedBox(height: 5.0),
-                //Forgot Password
-                Container(
-                  alignment: Alignment(1.0, 0.0),
-                  padding: EdgeInsets.only(top: 15.0, left: 20.0),
-                  child: InkWell(
-                    child: Text(
-                      'Forgot Password',
-                      style: TextStyle(
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Montserrat',
-                          decoration: TextDecoration.underline),
+          Expanded(
+            flex: 10,
+            child: Container(
+              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                    child: TextFormField(
+                      controller: _mail,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: getInputFieldDecoration('EMAIL'),
                     ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed('/forgotpass');
-                    },
                   ),
-                ),
-                SizedBox(height: 40.0),
-                //Login
-                SubmitButton('LOGIN', () async {
-                  var map = new Map<String, dynamic>();
+                  // SizedBox(height: 20.0),
+                  Expanded(
+                    flex: 3,
+                    child: TextFormField(
+                      controller: _password,
+                      decoration: getInputFieldDecoration('PASSWORD'),
+                      obscureText: true,
+                    ),
+                  ),
+                  // SizedBox(height: 5.0),
+                  //Forgot Password
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      alignment: Alignment(1.0, 0.0),
+                      padding: EdgeInsets.only(top: 15.0, left: 20.0),
+                      child: InkWell(
+                        child: Text(
+                          'Forgot Password',
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/forgotpass');
+                        },
+                      ),
+                    ),
+                  ),
 
-                  map['password'] = _password.text;
-                  map['email'] = _mail.text;
-                  String url = '/auth/user/login';
-                  var res = await postWithBodyOnly(map, url);
+                  // SizedBox(height: 20.0),
+                  //Login
+                  Expanded(
+                    flex: 3,
+                    child: SubmitButton('LOGIN', () async {
+                      Navigator.pushNamed(context, '/loader');
 
-                  if (res != null) {
-                    if (res.success) {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      var token = res.about['data']['token'];
-                      var name = res.about['data']['name'];
-                      // print(token);
-                      prefs.setString('USER_TOKEN', token);
-                      prefs.setString('__UID', res.about['comment'].toString());
-                      prefs.setString('__UNAME', name);
-                      Navigator.pushNamed(context, '/home', arguments: name);
-                    } else {
-                      print(res.about);
-                      await showAlertBox(
-                          context, "Unsucessful Login", res.about['comment']);
-                    }
-                  } else {
-                    await showAlertBox(context, "CONNECTION ERROR",
-                        "Could'nt connect to the server..! Please try Again");
-                  }
-                }),
-                SizedBox(height: 20.0),
-                //Login as Guest
-                Container(
-                    height: 40.0,
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () async {
-                        Navigator.pushNamed(context, '/home');
-                      },
-                      child: getButtonWithLogo(
-                          'Login as Guest', Icons.accessibility),
-                    ))
-              ],
+                      var map = new Map<String, dynamic>();
+
+                      map['password'] = _password.text;
+                      map['email'] = _mail.text;
+                      String url = '/auth/user/login';
+                      var res = await postWithBodyOnly(map, url);
+                      Navigator.of(context).pop();
+
+                      if (res != null) {
+                        if (res.success) {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          var token = res.about['data']['token'];
+                          var name = res.about['data']['name'];
+                          // print(token);
+                          prefs.setString('USER_TOKEN', token);
+                          prefs.setString(
+                              '__UID', res.about['comment'].toString());
+                          prefs.setString('__UNAME', name);
+                          Navigator.pushNamed(context, '/home',
+                              arguments: name);
+                        } else {
+                          print(res.about);
+                          await showAlertBox(context, "Unsucessful Login",
+                              res.about['comment']);
+                        }
+                      } else {
+                        await showAlertBox(context, "CONNECTION ERROR",
+                            "Could'nt connect to the server..! Please try Again");
+                      }
+                    }),
+                  ),
+
+                  // SizedBox(height: 20.0),
+                  //Login as Guest
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                        height: 35.0,
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () async {
+                            Navigator.pushNamed(context, '/home');
+                          },
+                          child: getButtonWithLogo(
+                              'Login as Guest', Icons.accessibility),
+                        )),
+                  ),
+
+                  // Expanded(flex: 2, child: SizedBox()),
+                  Expanded(
+                      flex: 3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'New to the community ?',
+                          ),
+                          SizedBox(width: 5.0),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/signup');
+                            },
+                            child: Text(
+                              'Register',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                  decoration: TextDecoration.underline),
+                            ),
+                          )
+                        ],
+                      ))
+                ],
+              ),
             ),
           ),
-          SizedBox(height: 15.0),
-          //Signup
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'New to the community ?',
-                style: TextStyle(fontFamily: 'Montserrat'),
-              ),
-              SizedBox(width: 5.0),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed('/signup');
-                },
-                child: Text(
-                  'Register',
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                      decoration: TextDecoration.underline),
-                ),
-              )
-            ],
-          )
+
+          Expanded(flex: 2, child: SizedBox()),
         ],
       ),
     );

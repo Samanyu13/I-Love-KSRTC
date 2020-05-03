@@ -4,7 +4,6 @@ InputDecoration getInputFieldDecoration(String text) {
   return InputDecoration(
       labelText: text,
       labelStyle: TextStyle(
-          fontFamily: 'Montserrat',
           fontWeight: FontWeight.bold,
           color: Colors.grey),
       focusedBorder:

@@ -9,13 +9,7 @@ class UserBusInfo extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Details',
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-          ),
-        ),
-        backgroundColor: Colors.green,
+        title: Text('Details'),
         actions: <Widget>[
           InkWell(
             onTap: () async {

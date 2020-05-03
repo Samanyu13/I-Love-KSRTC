@@ -22,16 +22,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       key: mykey,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text(
-          'SIGN UP',
-          style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: AppBar(title: Text('SIGN UP')),
       body: ListView(
         padding: EdgeInsets.only(top: 25.0, left: 20.0, right: 20.0),
         children: <Widget>[
@@ -63,6 +54,8 @@ class _SignUpState extends State<SignUp> {
                 ),
                 SizedBox(height: 40.0),
                 SubmitButton('SIGNUP', () async {
+                  Navigator.pushNamed(context, '/loader');
+
                   var map = new Map<String, dynamic>();
 
                   // map['userName'] = _username.text;
@@ -75,6 +68,7 @@ class _SignUpState extends State<SignUp> {
                   map['mobileNo'] = "8281812793";
                   String url = '/auth/user/register';
                   var res = await postWithBodyOnly(map, url);
+                  Navigator.of(context).pop();
 
                   if (res != null) {
                     if (res.success) {

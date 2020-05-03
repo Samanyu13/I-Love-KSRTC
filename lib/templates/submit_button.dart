@@ -11,7 +11,7 @@ class SubmitButton extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          height: 40.0,
+          height: 35.0,
           child: Material(
             borderRadius: BorderRadius.circular(20.0),
             shadowColor: Colors.greenAccent,
@@ -23,9 +23,7 @@ class SubmitButton extends StatelessWidget {
                 child: Text(
                   _text,
                   style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Montserrat'),
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

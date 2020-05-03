@@ -17,10 +17,7 @@ Future showAlertBox(BuildContext context, String title, String body) {
                 color: _indic, fontWeight: FontWeight.bold, fontSize: 16)),
         content: new Text(
           body,
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w500,
-              fontSize: 15),
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
         ),
         actions: <Widget>[
           FlatButton(

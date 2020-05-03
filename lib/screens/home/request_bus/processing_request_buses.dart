@@ -76,11 +76,7 @@ class _ProcessingRequestBusState extends State<ProcessingRequestBus> {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text(
-          'Under-Processing Buses',
-          style: TextStyle(fontFamily: 'Montserrat'),
-        ),
-        backgroundColor: Colors.green,
+        title: Text('Under-Processing Buses'),
         actions: <Widget>[
           InkWell(
             onTap: () async {

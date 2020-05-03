@@ -11,12 +11,7 @@ class ConfirmPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: Text('CONFIRM',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.bold)),
+          title: Text('CONFIRM'),
         ),
         body: Container(
           padding: EdgeInsets.all(20),
@@ -27,7 +22,6 @@ class ConfirmPage extends StatelessWidget {
               Text(
                 "Enter the otp sent to your mail-ID for confirming your registration..!",
                 style: TextStyle(
-                  fontFamily: 'Montserrat',
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -39,6 +33,8 @@ class ConfirmPage extends StatelessWidget {
               ),
               SizedBox(height: 40.0),
               SubmitButton('VERIFY', () async {
+                Navigator.pushNamed(context, '/loader');
+
                 dynamic id = ModalRoute.of(context).settings.arguments;
                 print(id['data']);
                 DateTime _timestamp = new DateTime.now();
@@ -49,6 +45,7 @@ class ConfirmPage extends StatelessWidget {
                 map['id'] = id['data'].toString();
                 String url = '/auth/user/verify';
                 var res = await postWithBodyOnly(map, url);
+                Navigator.of(context).pop();
 
                 if (res != null) {
                   if (res.success) {

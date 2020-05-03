@@ -95,16 +95,12 @@ Future youShouldLogin(BuildContext context) {
       child: new AlertDialog(
         title: new Text('ERROR',
             style: TextStyle(
-                fontFamily: 'Montserrat',
                 fontWeight: FontWeight.bold,
                 color: Colors.orange,
                 fontSize: 16)),
         content: new Text(
           'You have to login to use this functionality..:D',
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w500,
-              fontSize: 15),
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
         ),
         actions: <Widget>[
           FlatButton(

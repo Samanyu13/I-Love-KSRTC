@@ -18,9 +18,7 @@ Container getButtonWithLogo(String text, IconData icon) {
         ),
         SizedBox(width: 10.0),
         Center(
-          child: Text(text,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, fontFamily: 'Montserrat')),
+          child: Text(text, style: TextStyle(fontWeight: FontWeight.bold)),
         )
       ],
     ),

@@ -61,8 +61,7 @@ class _DynamicRouteDetailsInputState extends State<DynamicRouteDetailsInput> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Bus Details'),
-          backgroundColor: Colors.green,
+          title: Text('Input Bus Details'),
           actions: <Widget>[
             InkWell(
               onTap: () async {
@@ -133,9 +132,7 @@ class _DynamicRouteDetailsInputState extends State<DynamicRouteDetailsInput> {
                           return new PopupMenuItem(
                               child: new Text(
                                 value,
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                               value: value);
                         }).toList();
@@ -169,9 +166,7 @@ class _DynamicRouteDetailsInputState extends State<DynamicRouteDetailsInput> {
                           return new PopupMenuItem(
                               child: new Text(
                                 value,
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                               value: value);
                         }).toList();
@@ -188,12 +183,13 @@ class _DynamicRouteDetailsInputState extends State<DynamicRouteDetailsInput> {
               //***********************************************************************
               //BUTTON
               SubmitButton('SUBMIT', () async {
+                Navigator.pushNamed(context, '/loader');
+
                 var map = new Map<String, dynamic>();
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 var _userId = prefs.getString('__UID');
 
                 if (_userId == null) {
-                  print('object');
                   print('Poi LOGIN cheyyeda..!');
                 } else {
                   map['user_id'] = _userId;
@@ -205,6 +201,8 @@ class _DynamicRouteDetailsInputState extends State<DynamicRouteDetailsInput> {
                   print(map);
                   String url = '/private/user/requestbus/requestbusInput';
                   var res = await postWithBodyAndHeader(map, url);
+                  Navigator.of(context).pop();
+
                   print(res);
                   print(res.success);
                   if (res != null) {
@@ -235,7 +233,6 @@ class _DynamicRouteDetailsInputState extends State<DynamicRouteDetailsInput> {
 
   TextStyle getLabelStyle() {
     return TextStyle(
-      fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold,
       // color: Colors.black
     );

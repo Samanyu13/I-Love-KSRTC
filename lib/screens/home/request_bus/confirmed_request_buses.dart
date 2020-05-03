@@ -75,11 +75,7 @@ class _ConfirmedRequestBusState extends State<ConfirmedRequestBus> {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text(
-          'Confirmed Buses',
-          style: TextStyle(fontFamily: 'Montserrat'),
-        ),
-        backgroundColor: Colors.green,
+        title: Text('Confirmed Buses'),
         actions: <Widget>[
           InkWell(
             onTap: () async {

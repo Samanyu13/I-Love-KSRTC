@@ -11,6 +11,7 @@ import 'package:I_Love_KSRTC/screens/home/request_bus/dynamic_route_list.dart';
 import 'package:I_Love_KSRTC/screens/home/request_bus/live_history_request_buses.dart';
 import 'package:I_Love_KSRTC/screens/home/request_bus/processing_request_buses.dart';
 import 'package:I_Love_KSRTC/screens/home/request_bus/request_bus.dart';
+import 'package:I_Love_KSRTC/templates/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,6 +22,7 @@ Future<void> main() async {
   print("IDDD");
   print(id);
   runApp(MaterialApp(
+    theme: ThemeData(fontFamily: 'Montserrat', primaryColor: Colors.green),
     home: id == null ? LoginPage() : UserHome(),
     // home: DynamicRouteDetailsInput(),
     // home: LoginPage(),
@@ -42,6 +44,7 @@ Future<void> main() async {
       '/processingRequestBuses': (context) => ProcessingRequestBus(),
       '/confirmedRequestBuses': (context) => ConfirmedRequestBus(),
       '/liveHistoryRequestBuses': (context) => LiveHistoryRequestBus(),
+      '/loader': (context) => LoaderScreen()
     },
   ));
 }

@@ -120,7 +120,6 @@ Column confirmedCard(
 
 TextStyle detailCellTextStyle() {
   return TextStyle(
-    fontFamily: 'Montserrat',
     fontWeight: FontWeight.w600,
     // color: Colors.white
   );

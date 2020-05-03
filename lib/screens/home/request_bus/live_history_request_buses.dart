@@ -76,11 +76,7 @@ class _LiveHistoryRequestBusState extends State<LiveHistoryRequestBus> {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text(
-          'List of Routes Requested',
-          style: TextStyle(fontFamily: 'Montserrat'),
-        ),
-        backgroundColor: Colors.green,
+        title: Text('List of Routes Requested'),
         actions: <Widget>[
           InkWell(
             onTap: () async {

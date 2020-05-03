@@ -9,12 +9,7 @@ class DynamicRouteList extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'DETAILS',
-          style:
-              TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.green,
+        title: Text('DETAILS'),
         actions: <Widget>[
           InkWell(
             onTap: () async {

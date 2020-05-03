@@ -9,10 +9,7 @@ Future showBusStopListPopup(BuildContext context, dynamic data) {
         contentPadding: EdgeInsets.only(left: 25, right: 25),
         title: Center(
           child: Text("BUS STOPS",
-              style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16)),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         ),
         content: Container(
           height: 200,
@@ -45,9 +42,6 @@ List<Widget> myStopList(var data) {
     ));
     datum.add(Text(
       data[i]['busstop'],
-      style: TextStyle(
-        fontFamily: 'Montserrat',
-      ),
     ));
   }
   return datum;

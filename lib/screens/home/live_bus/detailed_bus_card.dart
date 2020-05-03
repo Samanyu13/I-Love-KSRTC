@@ -1,6 +1,9 @@
 import 'package:I_Love_KSRTC/screens/home/data_getter/post.dart';
 import 'package:I_Love_KSRTC/templates/busstop_list.dart';
+import 'package:I_Love_KSRTC/templates/env.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 Column busDetailCell(var x, BuildContext context) {
   return Column(
@@ -53,21 +56,22 @@ Column busDetailCell(var x, BuildContext context) {
                           },
                           child: Text(
                             "Bus Stops",
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                decorationColor: Colors.black),
+                            style: TextStyle(decorationColor: Colors.black),
                           ),
                         ),
                         RaisedButton(
                           onPressed: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setString('__RID', x['route_id']);
+                            socketInit("B" + x['route_id']);
                             Navigator.of(context)
                                 .pushNamed('/maps', arguments: x['route_id']);
                           },
                           color: Colors.greenAccent,
                           child: Text(
                             "Live Location",
-                            style: TextStyle(
-                                fontFamily: 'Montserrat', color: Colors.white),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],
@@ -81,9 +85,26 @@ Column busDetailCell(var x, BuildContext context) {
   );
 }
 
+void socketInit(String _roomID) {
+  print(_roomID);
+  String url = Env.get().ip;
+  IO.Socket _socket = IO.io(url, <String, dynamic>{
+    'transports': ['websocket']
+  });
+  _socket.on('connect', (_) {
+    print('Inside Connection');
+    _socket.emitWithAck('clientJoinsRoom', _roomID, ack: (data) {
+      if (data != null) {
+        print('from server $data');
+      } else {
+        print("Null");
+      }
+    });
+  });
+}
+
 TextStyle detailCellTextStyle() {
   return TextStyle(
-    fontFamily: 'Montserrat',
     fontWeight: FontWeight.bold,
     // color: Colors.white
   );

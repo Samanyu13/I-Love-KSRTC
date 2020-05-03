@@ -72,7 +72,6 @@ class _ToVerifyRequestBusState extends State<ToVerifyRequestBus> {
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text('CONFIRMED BUSES'),
-        backgroundColor: Colors.green,
         actions: <Widget>[
           InkWell(
             onTap: () async {

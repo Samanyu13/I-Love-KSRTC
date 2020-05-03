@@ -80,14 +80,13 @@ class _UserHomeState extends State<UserHome> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         SizedBox(width: 5),
-        Text(
-          name.busstopName,
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: Colors.grey),
-        ),
+        Flexible(
+          child: Text(
+            name.busstopName,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 16, color: Colors.grey),
+          ),
+        )
       ],
     );
   }
@@ -101,13 +100,7 @@ class _UserHomeState extends State<UserHome> {
     return new Scaffold(
       drawer: AppDrawer(),
       resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: Text('Hello ' + _name + ' !',
-        style: TextStyle(
-          fontFamily: 'Montserrat'
-        ),),
-        backgroundColor: Colors.green,
-      ),
+      appBar: AppBar(title: Text('Hello ' + _name + ' !')),
       body: Center(child: showHomePage()),
     );
   }
@@ -125,10 +118,7 @@ class _UserHomeState extends State<UserHome> {
                   searchTextFieldA = AutoCompleteTextField<BusStopName>(
                     textCapitalization: TextCapitalization.characters,
                     suggestionsAmount: 5,
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16),
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                     controller: _fromStop,
                     key: fKeyA,
                     clearOnSubmit: false,
@@ -155,10 +145,7 @@ class _UserHomeState extends State<UserHome> {
                   SizedBox(height: 20.0),
                   searchTextFieldB = AutoCompleteTextField<BusStopName>(
                     textCapitalization: TextCapitalization.characters,
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16),
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                     suggestionsAmount: 5,
                     controller: _toStop,
                     key: fKeyB,
@@ -185,12 +172,17 @@ class _UserHomeState extends State<UserHome> {
                   SizedBox(height: 25.0),
                   //Button
                   SubmitButton('GO', () async {
+                    Navigator.pushNamed(context, '/loader');
+
                     var map = new Map<String, dynamic>();
 
-                    map['from'] = _fromStop.text;
-                    map['to'] = _toStop.text;
+                    // map['from'] = _fromStop.text;
+                    // map['to'] = _toStop.text;
+                    map['from'] = 'EAST FORT';
+                    map['to'] = 'STATUE';
                     String url = '/private/user/retrieveAllLiveRoutes';
                     var res = await postWithBodyOnly(map, url);
+                    Navigator.of(context).pop();
 
                     if (res != null) {
                       var data = res.about['data'];

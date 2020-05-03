@@ -73,14 +73,13 @@ class _RequestBusState extends State<RequestBus> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         SizedBox(width: 5),
-        Text(
-          name.busstopName,
-          style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: Colors.grey),
-        ),
+        Flexible(
+          child: Text(
+            name.busstopName,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 16, color: Colors.grey),
+          ),
+        )
         // SizedBox(height: 10),
       ],
     );
@@ -91,11 +90,7 @@ class _RequestBusState extends State<RequestBus> {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text(
-          'Request Bus',
-          style: TextStyle(fontFamily: 'Montserrat'),
-        ),
-        backgroundColor: Colors.green,
+        title: Text('Request Bus'),
         actions: <Widget>[
           InkWell(
             onTap: () async {
@@ -130,10 +125,7 @@ class _RequestBusState extends State<RequestBus> {
                   searchTextFieldA = AutoCompleteTextField<BusStopName>(
                     textCapitalization: TextCapitalization.characters,
                     suggestionsAmount: 5,
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16),
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                     controller: _fromStop,
                     key: fKeyA,
                     clearOnSubmit: false,
@@ -160,10 +152,7 @@ class _RequestBusState extends State<RequestBus> {
                   SizedBox(height: 20.0),
                   searchTextFieldB = AutoCompleteTextField<BusStopName>(
                     textCapitalization: TextCapitalization.characters,
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16),
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                     suggestionsAmount: 5,
                     controller: _toStop,
                     key: fKeyB,
@@ -190,12 +179,15 @@ class _RequestBusState extends State<RequestBus> {
                   SizedBox(height: 25.0),
                   //Button
                   SubmitButton('GO', () async {
+                    Navigator.pushNamed(context, '/loader');
+
                     var map = new Map<String, dynamic>();
 
                     map['from'] = _fromStop.text;
                     map['to'] = _toStop.text;
                     String url = '/private/user/retrieveAllRoutes';
                     var res = await postWithBodyOnly(map, url);
+                    Navigator.of(context).pop();
 
                     if (res != null) {
                       var data = res.about['data'];
